@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+{% block content %}
+<!-- Carousel -->
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="page-header header-filter"
+                style="background-image: url({{ url_for('static', filename='img/bg_2.jpg') }});">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 ml-auto mr-auto text-center">
+                            <h1 class="title">CiccioPasticcio</h1>
+                            <h4>Descrizione piena di CiccioPasticcio.
+                                Comincia subito a cercare la tua stanza preferita.
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="page-header header-filter"
+                style="background-image: url({{ url_for('static', filename='img/bg_1.jpg') }});">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 ml-auto mr-auto text-center">
+                            <h1 class="title">CiccioPasticcio seconda pagina</h1>
+                            <h4>Altra Descrizione di CiccioPasticcio.
+                                Comincia subito a cercare la tua stanza preferita.
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="page-header header-filter"
+                style="background-image: url({{ url_for('static', filename='img/bg_3.jpg') }});">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 ml-auto mr-auto text-center">
+                            <h1 class="title">CiccioPasticcio terza pagina</h1>
+                            <h4>Altra Descrizione di CiccioPasticcio.
+                                Comincia subito a cercare la tua stanza preferita.
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <i class="material-icons">keyboard_arrow_left</i>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <i class="material-icons">keyboard_arrow_right</i>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<!-- End Carousel -->
+
+<div class="main main-raised" style="margin-top: -120px!important;">
+    <div class="col-md-10 ml-auto mr-auto align-items-center">
+        <div class="card card-raised card-form-horizontal"
+            style="position:absolute; margin-top:-60px!important; margin-right:50px!important; width:95%;">
+            <div class="card-body ">
+                <form method="" action="">
+                    <div class="row align-items-center vertical-align-center">
+                        <div class="col-md">
+                            <div class="form-group bmd-form-group">
+                                <label class="label-control">Inizio Soggiorno</label>
+                                <input type="text" class="form-control datetimepicker" value="24/10/2019" />
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group bmd-form-group">
+                                <label class="label-control">Fine Soggiorno</label>
+                                <input type="text" class="form-control datetimepicker" value="24/10/2019" />
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <button type="button" class="btn btn-info btn-block">Cerca</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="section text-center">
+            <h1>Booooooh1</h1>
+            <h1>Booooooh2</h1>
+            <h1>Booooooh3</h1>
+            <h1>Booooooh4</h1>
+            <h1>Booooooh5</h1>
+            <h1>Booooooh6</h1>
+            <h1>Booooooh7</h1>
+            <h1>Booooooh8</h1>
+            <h1>Booooooh9</h1>
+            <h1>Booooooh10</h1>
+            <h1>Booooooh11</h1>
+        </div>
+    </div>
+</div>
+{% endblock content %}
