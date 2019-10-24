@@ -1,3 +1,4 @@
+{% include 'includes/login.html' %}
 <!-- NavBar -->
 <nav class="navbar navbar-color-on-scroll navbar-transparent fixed-top navbar-expand-lg" color-on-scroll="100">
     <div class="container">
@@ -22,9 +23,9 @@
                         <i class="material-icons">contact_support</i> Contattaci
                     </a>
                 </li>
-                <li class="button-container nav-item iframe-extern">
-                    <a href="/login" target="_blank" class="btn btn-info btn-round btn-block">
-                        <i class="material-icons">account_circle</i> Login
+                <li class="button-container nav-item iframe-extern" data-toggle="modal" data-target="#loginModal">
+                    <a class="btn btn-info btn-round btn-block">
+                        <i class="material-icons" >account_circle</i> Login
                         <div class="ripple-container"></div>
                     </a>
                 </li>

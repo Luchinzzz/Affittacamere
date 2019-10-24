@@ -5,3 +5,7 @@ from ecommerce import app
 @app.route("/home")
 def home():
     return render_template('index.html')
+
+@app.route("/profile")
+def profile():
+    return render_template('profile.html')
