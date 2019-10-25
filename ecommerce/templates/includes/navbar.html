@@ -1,6 +1,6 @@
 {% include 'includes/login.html' %}
 
-<nav class="navbar navbar-color-on-scroll navbar-transparent fixed-top navbar-expand-lg" color-on-scroll="100">
+<nav class="navbar {%- if request.path == "/" %} navbar-color-on-scroll navbar-transparent{% endif %} fixed-top navbar-expand-lg" color-on-scroll="100">
     <div class="container">
         <div class="navbar-translate">
             <a href="/" class="navbar-brand">

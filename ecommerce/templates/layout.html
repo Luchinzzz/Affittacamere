@@ -14,7 +14,7 @@
     <!-- Material Kit CSS -->
     <link href={{ url_for('static', filename='css/material-kit.css') }} rel="stylesheet" />
     <!-- Custom CSS -->
-    <link href={{ url_for('static', filename='css/main.css') }} rel="stylesheet" />    
+    <link href={{ url_for('static', filename='css/main.css') }} rel="stylesheet" />
 </head>
 
 <body>
@@ -43,7 +43,7 @@
     <script>
         $('.datetimepicker').datetimepicker({
             // locale: 'it',
-            format: 'L',
+            format: 'DD/MM/YYYY',
             icons: {
                 time: "fa fa-clock-o",
                 date: "fa fa-calendar",
@@ -55,6 +55,12 @@
                 clear: 'fa fa-trash',
                 close: 'fa fa-remove'
             }
+        });
+        $("#datetimepicker1").on("dp.change", function (e) {
+            $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker2").on("dp.change", function (e) {
+            $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
         });
     </script>
 </body>

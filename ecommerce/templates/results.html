@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="main main-raised" style="margin-top: 100px!important;">
+    <div class="container">
+        <div class="section">
+            <h2>Risultati di Ricerca</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card" style="width: 360px;">
+                        <a href="#">
+                            <img class="card-img-top" src="{{ url_for('static', filename='img/bg_2.jpg') }}"
+                                alt="Image Placeholder">
+                        </a>
+                        <div class="card-body">
+                            <h3 class="card-title">Stanza di Cino</h3>
+                            <p class="card-text">
+                                <strong>Prezzo:</strong> € 1000 / per notte
+                                <br>
+                                <strong>Ospiti:</strong> 1
+                                <br>
+                                <strong>Luogo:</strong> Perugia
+                                <br>
+                                <strong>Caratteristiche:</strong> Boh
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
