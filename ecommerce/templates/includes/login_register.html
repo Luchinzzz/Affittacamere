@@ -1,0 +1,174 @@
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="card card-login" style="margin-bottom: 0px!important;">
+        <div class="card card-nav-tabs card-plain">
+          <div class="card-header card-header-info d-flex justify-content-center">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="tabLogin" href="#login" data-toggle="tab">Login</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="tabRegister" href="#register" data-toggle="tab">Registrati</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="tab-content text-center">
+            <!-- Login -->
+            <div class="tab-pane active" id="login">
+              <form class="form" method="POST" action="">
+                {{ login_form.csrf_token }}
+                <div class="card-body">
+                  <!-- Username/Email -->
+                  <div class="input-group {% if login_form.username_email.errors %}has-danger{% endif %}">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">face</i>
+                      </span>
+                    </div>
+                    {{ login_form.username_email(class="form-control", placeholder="Username/Email...") }}
+                    {% if login_form.username_email.errors %}
+                    <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                    <label class="control-label control-label-custom">{% for error in login_form.username_email.errors %}{{ error }}<br>{% endfor %}</label>
+                    {% endif %}
+                  </div>
+                  <!-- Password -->
+                  <div class="input-group {% if login_form.password.errors %}has-danger{% endif %}">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">lock_outline</i>
+                      </span>
+                    </div>
+                    {{ login_form.password(class="form-control", placeholder="Password...") }}
+                    {% if login_form.password.errors %}
+                    <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                    <label class="control-label control-label-custom">{% for error in login_form.password.errors %}{{ error }}<br>{% endfor %}</label>
+                    {% endif %}
+                  </div>
+                </div>
+                <!-- Submit Login -->
+                <div class="footer text-center">
+                  <input type="submit" value="Accedi" class="btn btn-primary btn-link btn-wd btn-lg">
+                </div>
+              </form>
+            </div>
+            <!-- Registrazione -->
+            <div class="tab-pane" id="register">
+              <form class="form" method="POST" action="">
+                {{ registration_form.csrf_token }}
+                <div class="card-body">
+                  <!-- Nome -->
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="input-group {% if registration_form.name.errors %}has-danger{% endif %}">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">face</i>
+                          </span>
+                        </div>
+                        {{ registration_form.name(class="form-control", placeholder="Nome...") }}
+                        {% if registration_form.name.errors %}
+                        <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                        <label class="control-label control-label-custom">{% for error in registration_form.name.errors %}{{ error }}<br>{% endfor %}</label>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <!-- Cognome -->
+                    <div class="col-md-6">
+                      <div class="input-group {% if registration_form.surname.errors %}has-danger{% endif %}">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">face</i>
+                          </span>
+                        </div>
+                        {{ registration_form.surname(class="form-control", placeholder="Cognome...") }}
+                        {% if registration_form.surname.errors %}
+                        <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                        <label class="control-label control-label-custom">{% for error in registration_form.surname.errors %}{{ error }}<br>{% endfor %}</label>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Username -->
+                  <div class="input-group {% if registration_form.username.errors %}has-danger{% endif %}">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">face</i>
+                      </span>
+                    </div>
+                    {{ registration_form.username(class="form-control", placeholder="Username...") }}
+                    {% if registration_form.username.errors %}
+                    <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                    <label class="control-label control-label-custom">{% for error in registration_form.username.errors %}{{ error }}<br>{% endfor %}</label>
+                    {% endif %}
+                  </div>
+                  <!-- Email -->
+                  <div class="input-group {% if registration_form.email.errors %}has-danger{% endif %}">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">email</i>
+                      </span>
+                    </div>
+                    {{ registration_form.email(class="form-control", placeholder="Email...") }}
+                    {% if registration_form.email.errors %}
+                    <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                    <label class="control-label control-label-custom">{% for error in registration_form.email.errors %}{{ error }}<br>{% endfor %}</label>
+                    {% endif %}
+                  </div>
+                  <!-- Data di Nascita -->
+                  <div class="input-group {% if registration_form.birth_date.errors %}has-danger{% endif %}">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">calendar_today</i>
+                      </span>
+                    </div>
+                    {{ registration_form.birth_date(class="form-control datetimepicker", id="datetimepicker", placeholder="Data di Nascita...") }}
+                    {% if registration_form.birth_date.errors %}
+                    <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                    <label class="control-label control-label-custom">{% for error in registration_form.birth_date.errors %}{{ error }}<br>{% endfor %}</label>
+                    {% endif %}
+                  </div>
+                  <!-- Password -->
+                  <div class="input-group {% if registration_form.password.errors %}has-danger{% endif %}">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">lock_outline</i>
+                      </span>
+                    </div>
+                    {{ registration_form.password(class="form-control", placeholder="Password...") }}
+                    {% if registration_form.password.errors %}
+                    <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                    <label class="control-label control-label-custom">{% for error in registration_form.password.errors %}{{ error }}<br>{% endfor %}</label>
+                    {% endif %}
+                  </div>
+                  <!-- Conferma Password -->
+                  <div class="input-group {% if registration_form.confirm_password.errors %}has-danger{% endif %}">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">lock_outline</i>
+                      </span>
+                    </div>
+                    {{ registration_form.confirm_password(class="form-control", placeholder="Conferma Password...") }}
+                    {% if registration_form.confirm_password.errors %}
+                    <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                    <label class="control-label control-label-custom">{% for error in registration_form.confirm_password.errors %}{{ error }}<br>{% endfor %}</label>
+                    {% endif %}
+                  </div>
+                  <!-- Submit Registrazione -->
+                  <div class="footer text-center">
+                    <input type="submit" value="Registrati" class="btn btn-primary btn-link btn-wd btn-lg">
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

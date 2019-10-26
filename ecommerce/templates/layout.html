@@ -63,6 +63,17 @@
             $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
         });
     </script>
+    <!-- Dirty Solution to reopen Modal in case of wrong input -->
+    {% if register_error == True %}
+        <script type="text/javascript">
+            $('#loginModal').modal()
+            $('#tabRegister').click()
+        </script>
+    {% elif login_error == True %}
+        <script type="text/javascript">
+            $('#loginModal').modal()
+        </script>
+    {% endif %}
 </body>
 
 </html>

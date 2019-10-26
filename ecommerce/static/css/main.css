@@ -79,3 +79,16 @@
   text-align: center;
   font-size: 18px;
 }
+
+/* Login Form */
+.control-label-custom {
+  position: absolute!important;
+  top: 2.5rem!important;
+  left: 3.44rem!important;
+  color: #f44336!important;
+}
+
+.form-control-feedback-custom {
+  position: absolute!important;
+  top: 0rem!important;
+}
