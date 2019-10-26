@@ -5,26 +5,29 @@
         <div class="section">
             <h2>Risultati di Ricerca</h2>
             <div class="row">
-                <div class="col-md-3">
-                    <div class="card" style="width: 360px;">
-                        <a href="#">
+                {% for i in range(0,15) %}
+                <div class="col-md-4">
+                    <a href="#">
+                        <div class="card">
+
                             <img class="card-img-top" src="{{ url_for('static', filename='img/bg_2.jpg') }}"
                                 alt="Image Placeholder">
-                        </a>
-                        <div class="card-body">
-                            <h3 class="card-title">Stanza di Cino</h3>
-                            <p class="card-text">
-                                <strong>Prezzo:</strong> € 1000 / per notte
-                                <br>
-                                <strong>Ospiti:</strong> 1
-                                <br>
-                                <strong>Luogo:</strong> Perugia
-                                <br>
-                                <strong>Caratteristiche:</strong> Boh
-                            </p>
+                            <div class="card-body">
+                                <h3 class="card-title">Stanza di Cino</h3>
+                                <p class="card-text">
+                                    <strong>Prezzo:</strong> € 1000 / per notte
+                                    <br>
+                                    <strong>Ospiti:</strong> 1
+                                    <br>
+                                    <strong>Luogo:</strong> Perugia
+                                    <br>
+                                    <strong>Caratteristiche:</strong> Boh
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </div>
