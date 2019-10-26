@@ -3,40 +3,153 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="card card-login" style="margin-bottom: 0px!important;">
-        <form class="form" method="" action="">
-          <div class="card-header card-header-primary text-center">
-            <h2 class="card-title">Login</h2>
-          </div>
-          <div class="card-body">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="material-icons">face</i>
-                </span>
+        <div class="card card-nav-tabs card-plain">
+          <div class="card-header card-header-info d-flex justify-content-center">
+            <div class="nav-tabs-navigation" >
+              <div class="nav-tabs-wrapper" >
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#login" data-toggle="tab">Login</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#register" data-toggle="tab">Registrati</a>
+                  </li>
+                </ul>
               </div>
-              <input type="text" class="form-control" placeholder="First Name...">
-            </div>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="material-icons">mail</i>
-                </span>
-              </div>
-              <input type="email" class="form-control" placeholder="Email...">
-            </div>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="material-icons">lock_outline</i>
-                </span>
-              </div>
-              <input type="password" class="form-control" placeholder="Password...">
             </div>
           </div>
-          <div class="footer text-center">
-            <a href="#cino" class="btn btn-primary btn-link btn-wd btn-lg">Get Started</a>
+          <div class="tab-content text-center">
+            <div class="tab-pane active" id="login">
+              <form class="form" method="" action="">
+                <div class="card-body">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">face</i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Username/Email">
+                  </div>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">lock_outline</i>
+                      </span>
+                    </div>
+                    <input type="password" class="form-control" placeholder="Password...">
+                  </div>
+                </div>
+                <div class="footer text-center">
+                  <a href="#cino" class="btn btn-primary btn-link btn-wd btn-lg">Accedi</a>
+                </div>
+              </form>
+            </div>
+            <div class="tab-pane" id="register">
+              <form class="form" method="" action="">
+                <div class="card-body">
+                  <!-- Nome -->
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">face</i>
+                          </span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Nome...">
+                      </div>
+                    </div>
+                    <!-- Cognome -->
+                    <div class="col-md-6">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">face</i>
+                          </span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Cognome...">
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Username -->
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">face</i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Username...">
+                  </div>
+                  <!-- Email -->
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">email</i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Email...">
+                  </div>
+                  <!-- Data di Nascita -->
+                  <div class="row align-items-center">
+                    <div class="col-md-8">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">calendar_today</i>
+                          </span>
+                        </div>
+                        <input type="text" class="form-control datetimepicker" id="datetimepicker" placeholder="Data di Nascita..." />
+                      </div>
+                    </div>
+                    <!-- Sesso -->
+                    <div class="col-md-4">
+                      <div class="form-check form-check-radio">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" >
+                            Maschio
+                            <span class="circle">
+                                <span class="check"></span>
+                            </span>
+                        </label>
+                      </div>
+                      <div class="form-check form-check-radio">
+                          <label class="form-check-label">
+                              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked>
+                              Femmina
+                              <span class="circle">
+                                  <span class="check"></span>
+                              </span>
+                          </label>
+                      </div>
+                    </div>
+                  </div>
+                    <!-- Password -->
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="material-icons">lock_outline</i>
+                        </span>
+                      </div>
+                      <input type="password" class="form-control" placeholder="Password...">
+                    </div>
+                    <!-- Conferma Password -->
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="material-icons">lock_outline</i>
+                        </span>
+                      </div>
+                      <input type="password" class="form-control" placeholder="Conferma Password...">
+                    </div>
+                  </div>
+                  <div class="footer text-center">
+                    <a href="#cino" class="btn btn-primary btn-link btn-wd btn-lg">Registrati</a>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
