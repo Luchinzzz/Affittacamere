@@ -29,7 +29,7 @@
                     <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownProfile" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         {{ current_user.username }}
-                        <img src="{{ url_for('static', filename='img/profilepics/'+current_user.picture) }}"
+                        <img src="{{ current_user.picture }}"
                             alt="Immagine di profilo" class="rounded-circle img-fluid">
                         <div class="ripple-container"></div>
                     </a>

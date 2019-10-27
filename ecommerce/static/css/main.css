@@ -87,13 +87,14 @@
   left: 3.44rem!important;
   color: #f44336!important;
 }
-
 .form-control-feedback-custom {
   position: absolute!important;
   top: 0rem!important;
 }
 .img-fluid {
+  max-height: 40px;
   max-width: 40px;
+  width: 100%;
   margin-left:5px;
   margin-top: -10px;
   margin-bottom: -10px;
@@ -109,6 +110,9 @@
 }
 
 /* Profile page */
+.profile-page .profile img {
+  max-height: 160px;  
+}
 .avatar {
   height: 70px;
 }

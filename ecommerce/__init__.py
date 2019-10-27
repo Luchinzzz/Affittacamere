@@ -3,15 +3,24 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from ecommerce.config import Config
+from os import path, makedirs
 
-# Initializing and configuring application
+current_dir = path.dirname(path.realpath(__file__))
+
 app = Flask(__name__)
 app.config.from_object(Config)
-# Initializing dbms utility
+
 db = SQLAlchemy(app)
-# Initializing Password Encrypter utility
 bcrypt = Bcrypt(app)
-# Initializing Flask Login utility
 login_manager = LoginManager(app)
+
+# Creating db and directories if db doesn't exists
+if not path.exists(path.join(current_dir, 'ecommerce.db')):
+    from ecommerce.models import *
+    db.create_all()
+    try:
+        makedirs(path.join(current_dir, 'static', 'img', 'profilepics', 'users'))
+    except OSError:
+        pass
 
 from ecommerce import routes

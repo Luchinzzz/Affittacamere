@@ -1,8 +1,10 @@
 from flask import render_template, redirect, url_for
-from ecommerce import app, db, bcrypt
+from ecommerce import current_dir, app, db, bcrypt
 from ecommerce.models import User, Room
-from ecommerce.forms import RegistrationForm, LoginForm
-from flask_login import login_user, logout_user, login_required
+from ecommerce.forms import RegistrationForm, LoginForm, ProfilePictureForm
+from flask_login import login_user, logout_user, login_required, current_user
+from werkzeug.utils import secure_filename
+from os import path
 
 
 def check_login_register(template_filename, registration_form, login_form):
@@ -84,7 +86,20 @@ def home():
 def profile():
     login_form = LoginForm()
     registration_form = RegistrationForm()
-    return render_template('profile.html', login_form=login_form, registration_form=registration_form)
+    profilepicture_form = ProfilePictureForm()
+
+    if profilepicture_form.is_submitted():
+        f = profilepicture_form.image.data
+        filename = secure_filename(
+            "%s.%s" % (current_user.id, f.filename.split('.')[-1])
+        )
+        path_img = path.join(current_dir, 'static', 'img', 'profilepics', 'users', filename)
+        f.save(path_img)
+        current_user.picture = '/static/img/profilepics/users/' + filename
+        db.session.commit()
+        return render_template('profile.html', login_form=login_form, registration_form=registration_form, profilepicture_form=profilepicture_form)
+
+    return render_template('profile.html', login_form=login_form, registration_form=registration_form, profilepicture_form=profilepicture_form)
 
 
 @app.route("/results", methods=['GET', 'POST'])

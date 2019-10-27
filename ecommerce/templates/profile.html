@@ -10,14 +10,15 @@
           <div class="col-md-6 ml-auto mr-auto">
             <div class="profile">
               <div class="avatar">
-                <img src="{{ url_for('static', filename='img/profilepics/'+current_user.picture) }}" alt="Circle Image"
+                <img src="{{ current_user.picture }}" alt="Circle Image"
                   class="img-raised rounded-circle img-fluid">
               </div>
-              <div>
-                <button class="btn btn-info btn-round" style="padding: 6px 10px;">
+              <form class="form" method="POST" action="" enctype="multipart/form-data">
+                <label class="btn btn-info btn-round" style="padding: 6px 10px;">
+                    {{ profilepicture_form.image(accept="image/*", onchange="this.form.submit()", style="display:none;") }}
                   <i class="material-icons">brush</i> Cambia immagine
-                </button>
-              </div>
+                </label>
+              </form>
               <div class="name">
                 <h3 class="title">{{ current_user.name + " " + current_user.surname }}</h3>
                 <h6 style="text-transform:none;">{{ current_user.username }}</h6>
