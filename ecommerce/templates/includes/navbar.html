@@ -27,7 +27,7 @@
                 {% if current_user.is_authenticated %}
                 <li class="nav-item dropdown" style="margin-top:2px; ">
                     <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownProfile" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
+                        aria-haspopup="true" aria-expanded="false" style="width: 170px">
                         {{ current_user.username }}
                         <img src="{{ current_user.picture }}"
                             alt="Immagine di profilo" class="rounded-circle img-fluid">
