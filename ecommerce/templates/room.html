@@ -5,7 +5,75 @@
         <div class="section">
             <h2>Risultati di Ricerca</h2>
             <div class="row">
-              
+              <div class=col-md-8>
+              </div>
+
+
+              <div class="col-md-4">
+                                    <!-- Card -->
+                  <div class="card">
+
+                    <!-- Card image -->
+                    <div class="view overlay">
+                       <img src="{{ current_user.picture }}" alt="Circle Image" class=" card-img-top rounded-circle img-fluid" style="max-width:100px; max-height:100px; margin-left:35%; margin-top:20px;">
+                      <a href="#!">
+                        <div class="mask rgba-white-slight"></div>
+                      </a>
+                    </div>
+
+                    <!-- Card content -->
+                    <div class="card-body">
+
+                      <!-- Title -->
+                      <h4 class="card-title">Nome Stanza</h4>
+                     
+                        <form method="" action="">
+                             <div class="row align-items-center vertical-align-center">
+                                 <div class="col-md-12">
+                                     <div class="form-group bmd-form-group">
+                                         <label class="label-control">Inizio Soggiorno</label>
+                                         <input type="text" class="form-control datetimepicker" id="datetimepicker1" />
+                                     </div>
+                                 </div>
+                                 <div class="col-md-12">
+                                     <div class="form-group bmd-form-group">
+                                         <label class="label-control">Fine Soggiorno</label>
+                                         <input type="text" class="form-control datetimepicker" id="datetimepicker2" />
+                                     </div>
+                                 </div>
+                                 <div class="col-md-12">
+                                     <div class="form-group bmd-form-group">
+                                         <label class="label-control bmd-label-static" for="controlSelect">Numero di
+                                             Persone</label>
+                                         <select class="form-control selectpicker" data-style="btn btn-link" id="controlSelect">
+                                             <option>1</option>
+                                             <option>2</option>
+                                             <option>3</option>
+                                             <option>4</option>
+                                             <option>5</option>
+                                             <option>6</option>
+                                             <option>7</option>
+                                             <option>8</option>
+                                             <option>9</option>
+                                             <option>10</option>
+                                         </select>
+                                     </div>
+                                 </div>
+                                 <div class="col-md">
+                                     <button type="button" class="btn btn-info btn-block">Cerca</button>
+                                 </div>
+                             </div>
+                        </form>
+                    
+                       
+
+                      
+
+                    </div>
+
+                  </div>
+                  <!-- Card -->
+              </div>
             </div>
         </div>
     </div>
