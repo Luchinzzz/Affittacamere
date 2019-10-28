@@ -20,8 +20,15 @@ class User(db.Model, UserMixin):
 
 class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    price = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)
     persons = db.Column(db.Integer, nullable=False, default=1)
     address = db.Column(db.String(70), nullable=False)
     description = db.Column(db.Text)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    ownerd_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    buyer_id = db.Column(db.Integer, db.ForeignKey('user.id')) # If null -> Room available
+
+class Prenotation(db.Model):
+    room_id = db.Column(db.Integer, db.ForeignKey('room.id'), primary_key=True)
+    buyer_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    start_date = db.Column(db.DateTime, primary_key=True)
+    end_date = db.Column(db.DateTime, primary_key=True)

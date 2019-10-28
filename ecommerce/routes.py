@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for
 from ecommerce import current_dir, app, db, bcrypt
 from ecommerce.models import User, Room
-from ecommerce.forms import RegistrationForm, LoginForm, ProfilePictureForm
+from ecommerce.forms import RegistrationForm, LoginForm, ProfilePictureForm, AddRoomForm
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 from os import path
@@ -84,10 +84,14 @@ def home():
 @app.route("/profile", methods=['GET', 'POST'])
 @login_required
 def profile():
+    # Login and Register Forms (useless)
     login_form = LoginForm()
     registration_form = RegistrationForm()
-    profilepicture_form = ProfilePictureForm()
+    # AddRoom Form
+    addroom_form = AddRoomForm()
 
+    # ProfilePicture Change Form
+    profilepicture_form = ProfilePictureForm()
     if profilepicture_form.is_submitted():
         f = profilepicture_form.image.data
         filename = secure_filename(
@@ -97,9 +101,9 @@ def profile():
         f.save(path_img)
         current_user.picture = '/static/img/profilepics/users/' + filename
         db.session.commit()
-        return render_template('profile.html', login_form=login_form, registration_form=registration_form, profilepicture_form=profilepicture_form)
+        return render_template('profile.html', login_form=login_form, registration_form=registration_form, profilepicture_form=profilepicture_form, addroom_form=addroom_form)
 
-    return render_template('profile.html', login_form=login_form, registration_form=registration_form, profilepicture_form=profilepicture_form)
+    return render_template('profile.html', login_form=login_form, registration_form=registration_form, profilepicture_form=profilepicture_form, addroom_form=addroom_form)
 
 
 @app.route("/results", methods=['GET', 'POST'])

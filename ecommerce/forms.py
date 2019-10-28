@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, FileField, PasswordField, SubmitField
+from wtforms import IntegerField, FloatField, StringField, TextAreaField, DateField, FileField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 class RegistrationForm(FlaskForm):
@@ -19,3 +19,10 @@ class LoginForm(FlaskForm):
 
 class ProfilePictureForm(FlaskForm):
     image = FileField()
+
+class AddRoomForm(FlaskForm):
+    price = FloatField('Prezzo', validators=[DataRequired()])
+    max_persons = IntegerField('Numero massimo di Persone', validators=[DataRequired()])
+    address = StringField('Posizione', validators=[DataRequired()])
+    description = TextAreaField('Descrizione')
+    submit = SubmitField('Aggiungi stanza')

@@ -15,15 +15,10 @@
   min-height: 150px;
 }
 
-.card .card-title {
-  margin-top: 0px;
-}
-
 /* DateTimePicker */
 .bmd-form-group .form-control {
   background-image: linear-gradient(to top, #2B65EC 2px, rgba(156, 39, 176, 0) 2px), linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px);
 }
-
 
 .is-focused [class^='bmd-label'],
 .is-focused [class*=' bmd-label'] {
@@ -126,4 +121,9 @@ padding-right:100px;
 padding-top: 50px;
 padding-bottom: 100px;
 max-height: inherit;
+}
+
+.card .card-body .room_span {
+  line-height: 15px;
+  font-size: 14px;
 }

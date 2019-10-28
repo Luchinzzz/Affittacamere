@@ -10,12 +10,11 @@
           <div class="col-md-6 ml-auto mr-auto">
             <div class="profile">
               <div class="avatar">
-                <img src="{{ current_user.picture }}" alt="Circle Image"
-                  class="img-raised rounded-circle img-fluid">
+                <img src="{{ current_user.picture }}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
               </div>
               <form class="form" method="POST" action="" enctype="multipart/form-data">
                 <label class="btn btn-info btn-round" style="padding: 6px 10px;">
-                    {{ profilepicture_form.image(accept="image/*", onchange="this.form.submit()", style="display:none;") }}
+                  {{ profilepicture_form.image(accept="image/*", onchange="this.form.submit()", style="display:none;") }}
                   <i class="material-icons">brush</i> Cambia immagine
                 </label>
               </form>
@@ -24,6 +23,49 @@
                 <h6 style="text-transform:none;">{{ current_user.username }}</h6>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <h3>Aggiungi una stanza</h3>
+            <form class="form" style="width: 400px; margin-left: auto; margin-right: auto;" method="POST" action="" enctype="multipart/form-data">
+              <!-- Address -->
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">gps_fixed</i>
+                  </span>
+                </div>
+                {{ addroom_form.address(class="form-control", placeholder="Posizione...") }}
+              </div>
+              <!-- Price -->
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">attach_money</i>
+                  </span>
+                </div>
+                {{ addroom_form.price(class="form-control", placeholder="Prezzo...") }}
+              </div>
+              <!-- Max Persons -->
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">face</i>
+                  </span>
+                </div>
+                {{ addroom_form.max_persons(class="form-control", placeholder="Numero massimo di Persone...") }}
+              </div>
+              <!-- Description -->
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">note</i>
+                  </span>
+                </div>
+                {{ addroom_form.description(class="form-control", placeholder="Descrizione...") }}
+              </div>
+            </form>
           </div>
         </div>
       </div>
