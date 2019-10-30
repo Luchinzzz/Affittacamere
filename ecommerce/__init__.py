@@ -35,8 +35,8 @@ if not path.exists(path.join(current_dir, 'ecommerce.db')):
     # Add First User
     from ecommerce.models import User
     user = User(
-        name='Nome',
-        surname='Cognome',
+        name='Jack',
+        surname='Nickolson',
         username='asd123',
         email='asd123@gmail.com',
         birth_date=datetime(2019, 10, 30),

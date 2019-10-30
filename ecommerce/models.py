@@ -33,3 +33,4 @@ class Prenotation(db.Model):
     start_date = db.Column(db.DateTime, primary_key=True, nullable=False)
     end_date = db.Column(db.DateTime, primary_key=True, nullable=False)
     persons = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)

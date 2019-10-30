@@ -5,6 +5,7 @@ from ecommerce.forms import RegistrationForm, LoginForm, ProfilePictureForm, Add
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 from os import path, makedirs, remove
+import shutil
 
 
 def check_login_register():
@@ -163,6 +164,24 @@ def room(requested_room_id):
         requested_room=requested_room,
         room_owner=room_owner
     )
+
+
+@app.route("/room/<requested_room_id>/delete")
+@login_required
+def room_delete(requested_room_id):
+    requested_room = Room.query.filter_by(id=requested_room_id).first()
+    if not requested_room:
+        return abort(404)
+
+    if requested_room.owner_id != current_user.id:
+        return abort(401)
+
+    db.session.delete(requested_room)
+    db.session.commit()
+    rooms_dir = path.join(current_dir, 'static', 'img', 'rooms')
+    shutil.rmtree(path.join(rooms_dir, str(requested_room_id)))
+
+    return redirect(f'/profile/{current_user.id}')
 
 
 @app.route("/logout")
