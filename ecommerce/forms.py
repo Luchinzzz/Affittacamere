@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, FloatField, StringField, TextAreaField, DateField, FileField, PasswordField, SubmitField
+from wtforms import SelectField, DecimalField, StringField, TextAreaField, DateField, FileField, MultipleFileField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 class RegistrationForm(FlaskForm):
@@ -21,8 +21,15 @@ class ProfilePictureForm(FlaskForm):
     image = FileField()
 
 class AddRoomForm(FlaskForm):
-    price = FloatField('Prezzo', validators=[DataRequired()])
-    max_persons = IntegerField('Numero massimo di Persone', validators=[DataRequired()])
+    name = StringField('Nome', validators=[DataRequired(), Length(min=5, max=20)])
+    description = TextAreaField('Descrizione opzionale')
     address = StringField('Posizione', validators=[DataRequired()])
-    description = TextAreaField('Descrizione')
+    price = DecimalField('Prezzo', validators=[DataRequired()])
+
+    choices = list(range(1,11)) # From 1 to 10 people choice
+    for i in range(0, len(choices)):
+        choices[i] = (str(choices[i]), str(choices[i]))
+    max_persons = SelectField('Numero massimo di Persone', choices=choices, validators=[DataRequired()])
+
+    pictures = MultipleFileField('Immagini della stanza')
     submit = SubmitField('Aggiungi stanza')

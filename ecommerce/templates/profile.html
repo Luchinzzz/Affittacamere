@@ -13,6 +13,7 @@
                 <img src="{{ current_user.picture }}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
               </div>
               <form class="form" method="POST" action="" enctype="multipart/form-data">
+                {{ profilepicture_form.csrf_token }}
                 <label class="btn btn-info btn-round" style="padding: 6px 10px;">
                   {{ profilepicture_form.image(accept="image/*", onchange="this.form.submit()", style="display:none;") }}
                   <i class="material-icons">brush</i> Cambia immagine
@@ -20,7 +21,7 @@
               </form>
               <div class="name">
                 <h3 class="title">{{ current_user.name + " " + current_user.surname }}</h3>
-                <h6 style="text-transform:none;">{{ current_user.username }}</h6>
+                <h6 style="font-size: 18px; text-transform:none; margin-top: -25px;">{{ current_user.username }}</h6>
               </div>
             </div>
           </div>
@@ -28,7 +29,37 @@
         <div class="row">
           <div class="col-md-12 text-center">
             <h3>Aggiungi una stanza</h3>
-            <form class="form" style="width: 400px; margin-left: auto; margin-right: auto;" method="POST" action="" enctype="multipart/form-data">
+            <form class="form addroom-form" style="width: 650px; margin-left: auto; margin-right: auto;" method="POST"
+              action="" enctype="multipart/form-data">
+              {{ addroom_form.csrf_token }}
+              <!-- Name -->
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">title</i>
+                  </span>
+                </div>
+                {{ addroom_form.name(class="form-control", placeholder="Nome...") }}
+                {% if addroom_form.name.errors %}
+                <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                <label
+                  class="control-label control-label-custom">{% for error in addroom_form.name.errors %}{{ error }}<br>{% endfor %}</label>
+                {% endif %}
+              </div>
+              <!-- Description -->
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">note</i>
+                  </span>
+                </div>
+                {{ addroom_form.description(class="form-control", placeholder="Descrizione opzionale...", rows="1") }}
+                {% if addroom_form.description.errors %}
+                <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                <label
+                  class="control-label control-label-custom">{% for error in addroom_form.description.errors %}{{ error }}<br>{% endfor %}</label>
+                {% endif %}
+              </div>
               <!-- Address -->
               <div class="input-group">
                 <div class="input-group-prepend">
@@ -37,6 +68,11 @@
                   </span>
                 </div>
                 {{ addroom_form.address(class="form-control", placeholder="Posizione...") }}
+                {% if addroom_form.address.errors %}
+                <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                <label
+                  class="control-label control-label-custom">{% for error in addroom_form.address.errors %}{{ error }}<br>{% endfor %}</label>
+                {% endif %}
               </div>
               <!-- Price -->
               <div class="input-group">
@@ -45,7 +81,12 @@
                     <i class="material-icons">attach_money</i>
                   </span>
                 </div>
-                {{ addroom_form.price(class="form-control", placeholder="Prezzo...") }}
+                {{ addroom_form.price(class="form-control form-control-profile", placeholder="Prezzo...") }}
+                {% if addroom_form.price.errors %}
+                <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                <label
+                  class="control-label control-label-custom">{% for error in addroom_form.price.errors %}{{ error }}<br>{% endfor %}</label>
+                {% endif %}
               </div>
               <!-- Max Persons -->
               <div class="input-group">
@@ -55,21 +96,63 @@
                   </span>
                 </div>
                 {{ addroom_form.max_persons(class="form-control", placeholder="Numero massimo di Persone...") }}
+                {% if addroom_form.max_persons.errors %}
+                <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                <label
+                  class="control-label control-label-custom">{% for error in addroom_form.max_persons.errors %}{{ error }}<br>{% endfor %}</label>
+                {% endif %}
               </div>
-              <!-- Description -->
+              <!-- Pictures for the Room -->
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="material-icons">note</i>
+                    <i class="material-icons">insert_photo</i>
                   </span>
                 </div>
-                {{ addroom_form.description(class="form-control", placeholder="Descrizione...") }}
+                {{ addroom_form.pictures(class="form-control") }}
+                {% if addroom_form.pictures.errors %}
+                <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                <label
+                  class="control-label control-label-custom">{% for error in addroom_form.pictures.errors %}{{ error }}<br>{% endfor %}</label>
+                {% endif %}
               </div>
+              <!-- Submit -->
+              {{ addroom_form.submit(class="btn btn-primary btn-link btn-wd btn-lg") }}
             </form>
           </div>
+        </div>
+        <h2 class="text-center">Le tue stanze</h2>
+        <div class="row">
+          {% for room in user_rooms %}
+          <div class="col-md-4" style="padding-bottom:30px;">
+            <a href="#">
+              <div class="card">
+                <img class="card-img-top" src="{{ url_for('static', filename='img/bg_2.jpg') }}"
+                  alt="Image Placeholder">
+                <div class="card-body">
+                  <h3 class="card-title" style="margin-top:0;">{{ room.name }}</h3>
+                  <p class="card-text">
+                    <strong>Prezzo:</strong> € {{ room.price }} / per notte
+                    <br>
+                    <strong>Ospiti:</strong> {{ room.max_persons }}
+                    <br>
+                    <strong>Luogo:</strong> {{ room.address }}
+                    <br>
+                    <strong>Descrizione:</strong> {{ room.description }}
+                  </p>
+                  <button type="button" class="btn btn-info btn-block">Vai alla pagina</button>
+                </div>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
         </div>
       </div>
     </div>
   </div>
 </div>
 {% endblock content %}
+
+<!--
+<c6 class="page-header header-filter" style="background-image: url('../assets/img/bg7.jpg'); background-size: cover; background-position: top center;">
+-->

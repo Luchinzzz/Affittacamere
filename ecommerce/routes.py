@@ -4,7 +4,7 @@ from ecommerce.models import User, Room
 from ecommerce.forms import RegistrationForm, LoginForm, ProfilePictureForm, AddRoomForm
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
-from os import path
+from os import path, makedirs, remove
 
 
 def check_login_register(template_filename, registration_form, login_form):
@@ -50,8 +50,8 @@ def check_login_register(template_filename, registration_form, login_form):
         if not user:
             # Email given?
             user = User.query.filter_by(email=login_form.username_email.data).first()
-        # No match in DB?
         if not user:
+            # No match in DB
             errors = True
             login_form.username_email.errors = ['Username o email non esistenti']
         if not errors:
@@ -60,13 +60,14 @@ def check_login_register(template_filename, registration_form, login_form):
                 errors = True
                 login_form.password.errors = ['Password errata']
         if errors:
+            # Wrong Credentials for Login
             return render_template(template_filename, login_form=login_form, registration_form=registration_form, login_error=True)
         
         # Successfull Login, save cookie and refresh page
         login_user(user, remember=True)
         return render_template(template_filename, login_form=login_form, registration_form=registration_form)
     
-    # Wrong Credentials for Login
+    # Something went wrong during Login
     return render_template(template_filename, login_form=login_form, registration_form=registration_form, login_error=True)
 
 
@@ -87,23 +88,57 @@ def profile():
     # Login and Register Forms (useless)
     login_form = LoginForm()
     registration_form = RegistrationForm()
+    # ProfilePicture Change Form
+    profilepicture_form = ProfilePictureForm()
     # AddRoom Form
     addroom_form = AddRoomForm()
 
-    # ProfilePicture Change Form
-    profilepicture_form = ProfilePictureForm()
-    if profilepicture_form.is_submitted():
-        f = profilepicture_form.image.data
-        filename = secure_filename(
-            "%s.%s" % (current_user.id, f.filename.split('.')[-1])
-        )
-        path_img = path.join(current_dir, 'static', 'img', 'profilepics', 'users', filename)
-        f.save(path_img)
-        current_user.picture = '/static/img/profilepics/users/' + filename
-        db.session.commit()
-        return render_template('profile.html', login_form=login_form, registration_form=registration_form, profilepicture_form=profilepicture_form, addroom_form=addroom_form)
+    # New Profile Picture?
+    if profilepicture_form.image.data:
+        if profilepicture_form.validate():
+            # Try to remove old picture image
+            if current_user.picture != '/static/img/users/default/profile.png':
+                try:
+                    remove( current_dir + current_user.picture )
+                except OSError:
+                    pass
+            # Save new image
+            f = profilepicture_form.image.data
+            filename = secure_filename(
+                "%s.%s" % (str(current_user.id), f.filename.split('.')[-1])
+            )
+            path_img = path.join(current_dir, 'static', 'img', 'users', filename)
+            print(path_img)
+            f.save(path_img)
+            # Update DB
+            current_user.picture = '/static/img/users/' + filename
+            db.session.commit()
+        
+    # New Room?
+    if addroom_form.submit.data:
+        if addroom_form.validate():
+            # Create new room entry
+            room = Room(
+                name=addroom_form.name.data,
+                description=addroom_form.description.data,
+                address=addroom_form.address.data,
+                price=addroom_form.price.data,
+                max_persons=addroom_form.max_persons.data,
+                ownerd_id=current_user.id
+            )
+            db.session.add(room)
+            db.session.commit()
+            makedirs(path.join('ecommerce', 'static', 'img', 'rooms', str(room.id)))
+            # Save picture in room directory
+            for picture in addroom_form.pictures.data:
+                filename = secure_filename(picture.filename)
+                path_img = path.join(current_dir, 'static', 'img', 'rooms', str(room.id), filename)
+                picture.save(path_img)
 
-    return render_template('profile.html', login_form=login_form, registration_form=registration_form, profilepicture_form=profilepicture_form, addroom_form=addroom_form)
+    # Get Current User Rooms
+    user_rooms = Room.query.filter(Room.ownerd_id==current_user.id).all()
+
+    return render_template('profile.html', login_form=login_form, registration_form=registration_form, profilepicture_form=profilepicture_form, addroom_form=addroom_form, user_rooms=user_rooms)
 
 
 @app.route("/results", methods=['GET', 'POST'])

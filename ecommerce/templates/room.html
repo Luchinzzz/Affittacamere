@@ -5,7 +5,7 @@
   <div class="section-room">
     <div class="row">
       <div class="col-md-8">
-        <h2>Risultati di Ricerca</h2>
+        <h2>Titolo </h2>
       </div>
       <div class="col-md-4 text-center">
         <h2>Prenotazione</h2>
@@ -58,21 +58,14 @@
           <!--/.Controls-->
         </div>
         <!--/.Carousel Wrapper-->
-        <div class="list-group-flush">
-          <div class="list-group-item">
-            <p class="mb-0"><i class="material-icons">fastfood</i></i>Cibo</p>
-          </div>
-          <div class="list-group-item">
-            <p class="mb-0"> <i class="fas fa-briefcase fa-2x mr-4 mr-4 grey p-3 white-text rounded-circle"
-                aria-hidden="true"></i>Work</p>
-          </div>
-          <div class="list-group-item">
-            <p class="mb-0"><i class="fas fa-anchor fa-2x mr-4 mr-4 grey p-3 white-text rounded-circle"
-                aria-hidden="true"></i>Vacation</p>
-          </div>
-        </div>
-        <h2>Titolo Descrizione</h2>
-        <p>Description-body</p>
+        <p style="padding-top:20px;">
+          Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora
+          quaeritis. Summus brains sit​​, morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris.
+          Hi mindless mortuis soulless creaturas, imo evil stalking monstra adventus resi dentevil vultus comedat
+          cerebella viventium. Qui animated corpse, cricket bat max brucks terribilem incessu zomby. The voodoo sacerdos
+          flesh eater, suscitat mortuos comedere carnem virus. Zonbi tattered for solum oculi eorum defunctis go lum
+          cerebro. Nescio brains an Undead zombies. Sicut malus putrid voodoo horror. Nigh tofth eliv ingdead.
+        </p>
       </div>
 
       <div class="col-md-4 align-content-center">
@@ -101,6 +94,26 @@
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2905.512797025126!2d11.968980315903943!3d43.261631679136784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132bfbdc9bcf192b%3A0xb3bdf3282abfc92d!2sStazione%20di%20Camucia-Cortona!5e0!3m2!1sit!2sit!4v1572300665778!5m2!1sit!2sit"
             style="border:0; width:400px; height:300px; margin-left:50px; margin-top:50px;" allowfullscreen></iframe>
         </div>
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th scope="col">Username<br>Utente</th>
+              <th scope="col">Inizio<br>soggiorno</th>
+              <th scope="col">Fine<br>soggiorno</th>
+              <th scope="col">Numero<br>persone</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in range(0,5) %}
+            <tr>
+              <th scope="row">Cino</th>
+              <td>25-02-2019</td>
+              <td>26-08-2019</td>
+              <td>1</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
     <!-- Card -->

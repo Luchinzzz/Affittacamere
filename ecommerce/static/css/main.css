@@ -89,7 +89,8 @@
 .img-fluid {
   max-height: 40px;
   max-width: 40px;
-  width: 100%;
+  height: 40px;
+  width: 40px;
   margin-left:5px;
   margin-top: -10px;
   margin-bottom: -10px;
@@ -106,7 +107,10 @@
 
 /* Profile page */
 .profile-page .profile img {
-  max-height: 160px;  
+  max-height: 160px;
+  max-width: 160px;
+  height: 160px;
+  width: 160px;
 }
 .avatar {
   height: 70px;
@@ -126,4 +130,21 @@ max-height: inherit;
 .card .card-body .room_span {
   line-height: 15px;
   font-size: 14px;
+}
+
+.form-control, .form-control::placeholder {
+  font-size: 18px;
+}
+
+.form-control .form-control-profile {
+  line-height:25px;
+}
+
+.profile-page .page-header {
+  height:550px;
+}
+
+.addroom-form .input-group {
+  padding-bottom: 0px;
+  margin: 20px 0 0 0;
 }
