@@ -65,12 +65,12 @@
         });
     </script>
     <!-- Dirty Solution to reopen Modal in case of wrong input -->
-    {% if register_error == True %}
+    {% if registration_form.errors %}
         <script type="text/javascript">
             $('#loginModal').modal()
             $('#tabRegister').click()
         </script>
-    {% elif login_error == True %}
+    {% elif login_form.errors %}
         <script type="text/javascript">
             $('#loginModal').modal()
         </script>

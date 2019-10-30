@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(40), unique=True, nullable=False)
     birth_date = db.Column(db.DateTime)
     password = db.Column(db.String(20), nullable=False)
-    picture = db.Column(db.String(40), default='/static/img/users/default/profile.png')
+    picture = db.Column(db.String(40), default='/static/img/users/default.png')
 
     def __repr__(self):
         return f"User({self.id}, '{self.name}', '{self.surname}', '{self.username}', '{self.email}', '{self.birth_date}')"
@@ -25,7 +25,7 @@ class Room(db.Model):
     address = db.Column(db.String(70), nullable=False)
     price = db.Column(db.Float, nullable=False)
     max_persons = db.Column(db.Integer, nullable=False, default=1)
-    ownerd_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class Prenotation(db.Model):
     room_id = db.Column(db.Integer, db.ForeignKey('room.id'), primary_key=True)

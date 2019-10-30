@@ -10,7 +10,7 @@
           <div class="col-md-6 ml-auto mr-auto">
             <div class="profile">
               <div class="avatar">
-                <img src="{{ current_user.picture }}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                <img src="{{ requested_user.picture }}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
               </div>
               <form class="form" method="POST" action="" enctype="multipart/form-data">
                 {{ profilepicture_form.csrf_token }}
@@ -20,12 +20,13 @@
                 </label>
               </form>
               <div class="name">
-                <h3 class="title">{{ current_user.name + " " + current_user.surname }}</h3>
-                <h6 style="font-size: 18px; text-transform:none; margin-top: -25px;">{{ current_user.username }}</h6>
+                <h3 class="title">{{ requested_user.name + " " + requested_user.surname }}</h3>
+                <h6 style="font-size: 18px; text-transform:none; margin-top: -25px;">{{ requested_user.username }}</h6>
               </div>
             </div>
           </div>
         </div>
+        {% if current_user.id == requested_user.id %}
         <div class="row">
           <div class="col-md-12 text-center">
             <h3>Aggiungi una stanza</h3>
@@ -121,11 +122,13 @@
             </form>
           </div>
         </div>
+        {% endif %}
         <h2 class="text-center">Le tue stanze</h2>
+        {% if requested_user_rooms %}
         <div class="row">
-          {% for room in user_rooms %}
+          {% for room in requested_user_rooms %}
           <div class="col-md-4" style="padding-bottom:30px;">
-            <a href="#">
+            <a href="/room/{{ room.id }}">
               <div class="card">
                 <img class="card-img-top" src="{{ url_for('static', filename='img/bg_2.jpg') }}"
                   alt="Image Placeholder">
@@ -147,6 +150,12 @@
           </div>
           {% endfor %}
         </div>
+        {% elif current_user.id == requested_user.id %}
+        <h4 class="text-center" style="padding-bottom: 20px;">Non hai ancora aggiunto nessuna stanza, puoi aggiungere la
+          tua prima stanza compilando il form soprastante!</h3>
+        {% else %}
+        <h4 class="text-center" style="padding-bottom: 20px;">Questo utente non ha ancora nessuna stanza.</h3>
+        {% endif %}
       </div>
     </div>
   </div>

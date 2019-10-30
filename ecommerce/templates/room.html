@@ -5,7 +5,7 @@
   <div class="section-room">
     <div class="row">
       <div class="col-md-8">
-        <h2>Titolo </h2>
+        <h2>{{ requested_room.name }} </h2>
       </div>
       <div class="col-md-4 text-center">
         <h2>Prenotazione</h2>
@@ -59,12 +59,7 @@
         </div>
         <!--/.Carousel Wrapper-->
         <p style="padding-top:20px;">
-          Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora
-          quaeritis. Summus brains sit​​, morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris.
-          Hi mindless mortuis soulless creaturas, imo evil stalking monstra adventus resi dentevil vultus comedat
-          cerebella viventium. Qui animated corpse, cricket bat max brucks terribilem incessu zomby. The voodoo sacerdos
-          flesh eater, suscitat mortuos comedere carnem virus. Zonbi tattered for solum oculi eorum defunctis go lum
-          cerebro. Nescio brains an Undead zombies. Sicut malus putrid voodoo horror. Nigh tofth eliv ingdead.
+          {{ requested_room.description }}
         </p>
       </div>
 
@@ -74,16 +69,20 @@
 
           <!-- Card image -->
           <div class="view overlay">
-            <img src="{{ current_user.picture }}" alt="Circle Image" class=" card-img-top rounded-circle img-fluid"
-              style="max-width:100px; max-height:100px; margin-left:40%; margin-top:20px; margin-bottom:5px;">
-            <a href="#!">
-              <div class="mask rgba-white-slight"></div>
+            <a href="/profile/{{room_owner.id}}">
+              <img src="{{ room_owner.picture }}" alt="Circle Image" class=" card-img-top rounded-circle img-fluid"
+                style="max-width:100px; max-height:100px; margin-left:40%; margin-top:20px; margin-bottom:5px;">
+              <a href="#!">
+                <div class="mask rgba-white-slight"></div>
+              </a>
             </a>
           </div>
 
           <div class="card-body">
             <div class="card-text">
-              <strong>Prezzo:</strong> 60 € 1 notte / 1 ospite
+              <strong>Prezzo:</strong> {{ requested_room.price }} € 1 notte / 1 ospite
+              <br>
+              <strong>Massimo numero di Persone:</strong> {{ requested_room.max_persons }}
             </div>
             <button type="button" class="btn btn-info btn-block">Prenota</button>
           </div>
