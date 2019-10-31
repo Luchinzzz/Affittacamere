@@ -1,68 +1,13 @@
 from flask import render_template, redirect, url_for, abort
-from ecommerce import current_dir, app, db, bcrypt
+from flask_login import logout_user, login_required, current_user
 from sqlalchemy import and_
+from ecommerce import current_dir, app, db
 from ecommerce.models import User, Room
 from ecommerce.forms import SearchForm, RegistrationForm, LoginForm, ProfilePictureForm, AddRoomForm
-from flask_login import login_user, logout_user, login_required, current_user
+from ecommerce.utils import check_login_register, truncate_descriptions
 from werkzeug.utils import secure_filename
 from os import path, makedirs, remove
 import shutil
-
-
-def check_login_register():
-    """
-    General function to check if a login or registration was performed,
-    since they could be performed in every page due to navbar
-    """
-    login_form = LoginForm()
-    registration_form = RegistrationForm()
-
-    # Registration performed?
-    if registration_form.register.data:
-        errors = not registration_form.validate()
-        # If username already exists
-        if User.query.filter_by(username=registration_form.username.data).first():
-            errors = True
-            registration_form.username.errors = ['Questo username è già stato preso']
-        if User.query.filter_by(email=registration_form.email.data).first():
-            errors = True
-            registration_form.email.errors = ['Questa email è già stata presa']
-        
-        if not errors:
-            # Registration compiled successfully
-            user = User(
-                name=registration_form.name.data,
-                surname=registration_form.surname.data,
-                username=registration_form.username.data,
-                email=registration_form.email.data,
-                birth_date=registration_form.birth_date.data,
-                password=bcrypt.generate_password_hash(registration_form.password.data).decode('utf-8')
-            )
-            db.session.add(user)
-            db.session.commit()
-            login_user(user, remember=True)
-
-    # Login performed?
-    if login_form.login.data and login_form.validate():
-        errors = False
-        # Username given?
-        user = User.query.filter_by(username=login_form.username_email.data).first()
-        if not user:
-            # Email given?
-            user = User.query.filter_by(email=login_form.username_email.data).first()
-        if not user:
-            # No match in DB
-            errors = True
-            login_form.username_email.errors = ['Username o email non esistenti']
-        if not errors:
-            # Check password
-            if bcrypt.check_password_hash(user.password, login_form.password.data):
-                login_user(user, remember=True)
-            else:
-                errors = True
-                login_form.password.errors = ['Password errata']
-
-    return registration_form, login_form
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -91,17 +36,20 @@ def search_results(search_form=None):
     # Check if user has performed a login or registration
     registration_form, login_form = check_login_register()
 
-    if search_form:
-        search_form =  SearchForm()
-        if not(search_form.submit.data and search_form.validate()):
-            return render_template('results.html',
-                search_form=search_form,
-                registration_form=registration_form,
-                login_form=login_form,
-                results_rooms=[]
-            )
+    # Check if we received a search form from the homepage, if not create a SearchForm object
+    if not search_form:
+        search_form = SearchForm()
 
-    # Get search_form datas
+    # Check if the search form is invalid
+    if not(search_form.submit.data and search_form.validate()):
+        return render_template('results.html',
+            search_form=search_form,
+            registration_form=registration_form,
+            login_form=login_form,
+            results_rooms=[]
+        )
+
+    # Form data are valids, save datas for the query
     address = search_form.address.data
     start_date = search_form.start_date.data
     end_date = search_form.end_date.data
@@ -114,6 +62,9 @@ def search_results(search_form=None):
         Room.available_to >= end_date,
         Room.max_persons >= persons
     )).all()
+
+    # Truncate description of results rooms if necessary
+    results_rooms = truncate_descriptions(results_rooms)
 
     return render_template('results.html',
         search_form=search_form,
@@ -184,10 +135,9 @@ def profile(requested_user_id):
 
     # Get current user rooms to display them
     requested_user_rooms = Room.query.filter_by(owner_id=requested_user_id).all()
-    # Cut descriptions if too long
-    for i in range(0, len(requested_user_rooms)):
-        if len(requested_user_rooms[i].description) >= 85:
-            requested_user_rooms[i].description = requested_user_rooms[i].description[0:85] + "..."
+    
+    # Truncate description of results rooms if necessary
+    requested_user_rooms = truncate_descriptions(requested_user_rooms)
 
     return render_template('profile.html',
         login_form=login_form,
@@ -243,6 +193,7 @@ def room_delete(requested_room_id):
 
 
 @app.route("/logout")
+@login_required
 def logout():
     # Simply let flask-login perform the logout and redirect to the homepage
     logout_user()
