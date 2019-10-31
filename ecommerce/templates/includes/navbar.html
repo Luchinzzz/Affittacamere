@@ -21,10 +21,8 @@
                 {% if current_user.is_authenticated %}
                 <li class="nav-item dropdown" style="margin-top:2px; ">
                     <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownProfile" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false" style="width: 170px">
-                        {{ current_user.username }}
-                        <img src="{{ current_user.picture }}"
-                            alt="Immagine di profilo" class="rounded-circle img-fluid">
+                        aria-haspopup="true" aria-expanded="false" style="width: 170px">{{ current_user.username }}<img
+                            src="{{ current_user.picture }}" alt="Immagine di profilo" class="rounded-circle img-fluid">
                         <div class="ripple-container"></div>
                     </a>
                     <div class="dropdown-menu dropdown-with-icons" aria-labelledby="navbarDropdownProfile">
