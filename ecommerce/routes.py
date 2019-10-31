@@ -87,9 +87,19 @@ def home():
 
 
 @app.route("/results", methods=['GET', 'POST'])
-def search_results(search_form):
+def search_results(search_form=None):
     # Check if user has performed a login or registration
     registration_form, login_form = check_login_register()
+
+    if search_form:
+        search_form =  SearchForm()
+        if not(search_form.submit.data and search_form.validate()):
+            return render_template('results.html',
+                search_form=search_form,
+                registration_form=registration_form,
+                login_form=login_form,
+                results_rooms=[]
+            )
 
     # Get search_form datas
     address = search_form.address.data
@@ -105,7 +115,12 @@ def search_results(search_form):
         Room.max_persons >= persons
     )).all()
 
-    return render_template('results.html', registration_form=registration_form, login_form=login_form, results_rooms=results_rooms)
+    return render_template('results.html',
+        search_form=search_form,
+        registration_form=registration_form,
+        login_form=login_form,
+        results_rooms=results_rooms
+    )
 
 
 @app.route("/profile/<requested_user_id>", methods=['GET', 'POST'])

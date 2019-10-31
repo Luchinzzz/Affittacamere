@@ -71,15 +71,20 @@
           <div class="view overlay">
             <a href="/profile/{{room_owner.id}}">
               <img src="{{ room_owner.picture }}" alt="Circle Image" class=" card-img-top rounded-circle img-fluid"
-                style="max-width:100px; max-height:100px; margin-left:40%; margin-top:20px; margin-bottom:5px;">
+                style="max-width:100px; max-height:100px; margin-left:45%; margin-top:20px; margin-bottom:5px;">
               <a href="#!">
                 <div class="mask rgba-white-slight"></div>
               </a>
+            </a>
+            <a href="/profile/{{room_owner.id}}">
+              <h4 class="card-title" style="text-align: center;">{{ room_owner.name + " " + room_owner.surname }}</h4>
             </a>
           </div>
 
           <div class="card-body">
             <div class="card-text">
+              <strong>Disponibile da </strong>{{ requested_room.available_from }} <strong>a</strong> {{ requested_room.available_to }}
+              <br>
               <strong>Prezzo:</strong> {{ requested_room.price }} € 1 notte / 1 ospite
               <br>
               <strong>Massimo numero di Persone:</strong> {{ requested_room.max_persons }}

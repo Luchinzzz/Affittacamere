@@ -1,6 +1,70 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="main main-raised" style="margin-top: 100px!important;">
+<div class="main main-raised" style="margin-top:200px!important;">
+    <div class="col-md-10 ml-auto mr-auto align-items-center">
+        <div class="card card-raised card-form-horizontal"
+            style="position:absolute; margin-top:-60px!important; margin-right:50px!important; width:95%;">
+            <div class="card-body ">
+                <form class="form" method="POST" action="">
+                    {{ search_form.csrf_token }}
+                    <div class="row align-items-center vertical-align-center">
+                        <div class="col-md">
+                            <div class="form-group bmd-form-group">
+                                <label for="inputPlace">Dove</label>
+                                {{ search_form.address(class="form-control", placeholder="Ovunque", id="inputPlace", aria_describedby="placeHelp") }}
+                                {% if search_form.address.errors %}
+                                <span
+                                    class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                                <label
+                                    class="control-label control-label-search-custom">{% for error in search_form.address.errors %}{{ error }}<br>{% endfor %}</label>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group bmd-form-group">
+                                <label class="label-control">Inizio Soggiorno</label>
+                                {{ search_form.start_date(class="form-control datetimepicker", id="datetimepicker1") }}
+                                {% if search_form.start_date.errors %}
+                                <span
+                                    class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                                <label
+                                    class="control-label control-label-search-custom">{% for error in search_form.start_date.errors %}{{ error }}<br>{% endfor %}</label>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group bmd-form-group">
+                                <label class="label-control">Fine Soggiorno</label>
+                                {{ search_form.end_date(class="form-control datetimepicker", id="datetimepicker2") }}
+                                {% if search_form.end_date.errors %}
+                                <span
+                                    class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                                <label
+                                    class="control-label control-label-search-custom">{% for error in search_form.end_date.errors %}{{ error }}<br>{% endfor %}</label>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group bmd-form-group">
+                                <label class="label-control bmd-label-static" for="controlSelect">Numero di
+                                    Persone</label>
+                                {{ search_form.persons(class="form-control selectpicker", data_style="btn btn-link", id="controlSelect") }}
+                                {% if search_form.persons.errors %}
+                                <span
+                                    class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                                <label
+                                    class="control-label control-label-search-custom">{% for error in search_form.persons.errors %}{{ error }}<br>{% endfor %}</label>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            {{ search_form.submit(class="btn btn-info btn-block") }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="section">
             <h2>Risultati di Ricerca</h2>
