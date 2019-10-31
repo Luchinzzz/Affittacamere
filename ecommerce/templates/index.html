@@ -65,47 +65,60 @@
         <div class="card card-raised card-form-horizontal"
             style="position:absolute; margin-top:-60px!important; margin-right:50px!important; width:95%;">
             <div class="card-body ">
-                <form method="" action="">
+                <form class="form" method="POST" action="">
+                    {{ search_form.csrf_token }}
                     <div class="row align-items-center vertical-align-center">
                         <div class="col-md">
                             <div class="form-group bmd-form-group">
                                 <label for="inputPlace">Dove</label>
-                                <input type="text" class="form-control" id="inputPlace" aria-describedby="placeHelp"
-                                    placeholder="Ovunque">
+                                {{ search_form.address(class="form-control", placeholder="Ovunque", id="inputPlace", aria_describedby="placeHelp") }}
+                                {% if search_form.address.errors %}
+                                <span
+                                    class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                                <label
+                                    class="control-label control-label-search-custom">{% for error in search_form.address.errors %}{{ error }}<br>{% endfor %}</label>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group bmd-form-group">
                                 <label class="label-control">Inizio Soggiorno</label>
-                                <input type="text" class="form-control datetimepicker" id="datetimepicker1" />
+                                {{ search_form.start_date(class="form-control datetimepicker", id="datetimepicker1") }}
+                                {% if search_form.start_date.errors %}
+                                <span
+                                    class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                                <label
+                                    class="control-label control-label-search-custom">{% for error in search_form.start_date.errors %}{{ error }}<br>{% endfor %}</label>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group bmd-form-group">
                                 <label class="label-control">Fine Soggiorno</label>
-                                <input type="text" class="form-control datetimepicker" id="datetimepicker2" />
+                                {{ search_form.end_date(class="form-control datetimepicker", id="datetimepicker2") }}
+                                {% if search_form.end_date.errors %}
+                                <span
+                                    class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                                <label
+                                    class="control-label control-label-search-custom">{% for error in search_form.end_date.errors %}{{ error }}<br>{% endfor %}</label>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group bmd-form-group">
                                 <label class="label-control bmd-label-static" for="controlSelect">Numero di
                                     Persone</label>
-                                <select class="form-control selectpicker" data-style="btn btn-link" id="controlSelect">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>10</option>
-                                </select>
+                                {{ search_form.persons(class="form-control selectpicker", data_style="btn btn-link", id="controlSelect") }}
+                                {% if search_form.persons.errors %}
+                                <span
+                                    class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                                <label
+                                    class="control-label control-label-search-custom">{% for error in search_form.persons.errors %}{{ error }}<br>{% endfor %}</label>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-md">
-                            <button type="button" class="btn btn-info btn-block">Cerca</button>
+                            {{ search_form.submit(class="btn btn-info btn-block") }}
                         </div>
                     </div>
                 </form>

@@ -75,6 +75,34 @@
                   class="control-label control-label-custom">{% for error in addroom_form.address.errors %}{{ error }}<br>{% endfor %}</label>
                 {% endif %}
               </div>
+              <!-- Available from date -->
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">calendar_today</i>
+                  </span>
+                </div>
+                {{ addroom_form.available_from(class="form-control datetimepicker", id="datetimepicker1", placeholder="Disponibile da...") }}
+                {% if addroom_form.available_from.errors %}
+                <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                <label
+                  class="control-label control-label-custom">{% for error in addroom_form.available_from.errors %}{{ error }}<br>{% endfor %}</label>
+                {% endif %}
+              </div>
+              <!-- Available to date -->
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">calendar_today</i>
+                  </span>
+                </div>
+                {{ addroom_form.available_to(class="form-control datetimepicker", id="datetimepicker2", placeholder="Fino a...") }}
+                {% if addroom_form.available_to.errors %}
+                <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                <label
+                  class="control-label control-label-custom">{% for error in addroom_form.available_to.errors %}{{ error }}<br>{% endfor %}</label>
+                {% endif %}
+              </div>
               <!-- Price -->
               <div class="input-group">
                 <div class="input-group-prepend">

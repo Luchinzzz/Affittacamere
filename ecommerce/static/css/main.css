@@ -148,3 +148,10 @@ max-height: inherit;
   padding-bottom: 0px;
   margin: 20px 0 0 0;
 }
+
+/* Other form label custom*/
+.control-label-search-custom {
+  position: absolute!important;
+  top: 4.2rem!important;
+  color: #f44336!important;
+}

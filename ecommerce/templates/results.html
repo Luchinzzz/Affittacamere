@@ -4,23 +4,24 @@
     <div class="container">
         <div class="section">
             <h2>Risultati di Ricerca</h2>
+            {% if results_rooms %}
             <div class="row">
-                {% for i in range(0,15) %}
+                {% for room in results_rooms %}
                 <div class="col-md-4">
-                    <a href="#">
+                    <a href="/room/{{ room.id }}">
                         <div class="card">
                             <img class="card-img-top" src="{{ url_for('static', filename='img/bg_2.jpg') }}"
                                 alt="Image Placeholder">
                             <div class="card-body">
-                                <h3 class="card-title" style="margin-top:0;">Stanza di Cino</h3>
+                                <h3 class="card-title" style="margin-top:0;">{{ room.name }}</h3>
                                 <p class="card-text">
-                                    <strong>Prezzo:</strong> € 1000 / per notte
+                                    <strong>Prezzo:</strong> € {{ room.price }} / per notte
                                     <br>
-                                    <strong>Ospiti:</strong> 1
+                                    <strong>Ospiti:</strong> {{ room.max_persons }}
                                     <br>
-                                    <strong>Luogo:</strong> Perugia
+                                    <strong>Luogo:</strong> {{ room.address }}
                                     <br>
-                                    <strong>Caratteristiche:</strong> Boh
+                                    <strong>Caratteristiche:</strong> {{ room.description }}
                                 </p>
                             </div>
                         </div>
@@ -28,6 +29,9 @@
                 </div>
                 {% endfor %}
             </div>
+            {% else %}
+            <h3>Nessun risultato trovato.</h3>
+            {% endif %}
         </div>
     </div>
 </div>
