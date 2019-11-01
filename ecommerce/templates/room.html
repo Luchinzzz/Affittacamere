@@ -19,7 +19,7 @@
             {% endfor %}
           </ol>
           <!--Slides-->
-          <div class="carousel-inner" role="listbox">
+          <div class="carousel-inner" style="max-height: 500px;" role="listbox">
             {% for picture in requested_room.pictures %}
             {% if loop.index == 1 %}
             <div class="carousel-item active">
