@@ -1,10 +1,12 @@
 from flask import render_template, redirect, url_for, abort
 from flask_login import logout_user, login_required, current_user
 from sqlalchemy import and_
+
 from ecommerce import current_dir, app, db
 from ecommerce.models import User, Room
 from ecommerce.forms import SearchForm, RegistrationForm, LoginForm, ProfilePictureForm, AddRoomForm
-from ecommerce.utils import check_login_register, truncate_descriptions
+from ecommerce.utils import check_login_register, truncate_descriptions, add_room_pictures_path
+
 from werkzeug.utils import secure_filename
 from os import path, makedirs, remove
 import shutil
@@ -65,6 +67,9 @@ def search_results(search_form=None):
 
     # Truncate description of results rooms if necessary
     results_rooms = truncate_descriptions(results_rooms)
+
+    # Add room pictures path to the results
+    results_rooms = add_room_pictures_path(results_rooms)
 
     return render_template('results.html',
         search_form=search_form,
@@ -139,6 +144,9 @@ def profile(requested_user_id):
     # Truncate description of results rooms if necessary
     requested_user_rooms = truncate_descriptions(requested_user_rooms)
 
+    # Add room pictures path to the results
+    requested_user_rooms = add_room_pictures_path(requested_user_rooms)
+
     return render_template('profile.html',
         login_form=login_form,
         registration_form=registration_form,
@@ -162,6 +170,9 @@ def room(requested_room_id):
     # Check if user has performed a login or registration
     registration_form, login_form = check_login_register()
     
+    # Add room pictures path
+    requested_room = add_room_pictures_path([requested_room])[0]
+
     return render_template('room.html',
         registration_form=registration_form,
         login_form=login_form,

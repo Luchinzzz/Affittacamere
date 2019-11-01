@@ -1,7 +1,9 @@
+from flask_login import login_user
+from ecommerce import current_dir, listdir
 from ecommerce.forms import SearchForm, RegistrationForm, LoginForm, ProfilePictureForm, AddRoomForm
 from ecommerce.models import User
 from ecommerce import db, bcrypt
-from flask_login import login_user
+from os import path
 
 def check_login_register():
     """
@@ -59,9 +61,23 @@ def check_login_register():
     return registration_form, login_form
 
 def truncate_descriptions(requested_user_rooms):
-    # Cut descriptions if too long
+    """
+    Cut descriptions if too long
+    """
     for i in range(0, len(requested_user_rooms)):
         if len(requested_user_rooms[i].description) >= 85:
             requested_user_rooms[i].description = requested_user_rooms[i].description[0:85] + "..."
 
     return requested_user_rooms
+
+def add_room_pictures_path(rooms):
+    """
+    Add pictures path to the rooms objects
+    """
+    for i in range(0, len(rooms)):
+        rooms_dir = path.join(current_dir, 'static', 'img', 'rooms', str(rooms[i].id))
+        rooms[i].pictures = []
+        for image in listdir(rooms_dir):
+            rooms[i].pictures.append( f'/static/img/rooms/{rooms[i].id}/{image}' )
+
+    return rooms

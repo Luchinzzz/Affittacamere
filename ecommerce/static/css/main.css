@@ -155,3 +155,8 @@ max-height: inherit;
   top: 4.2rem!important;
   color: #f44336!important;
 }
+
+/* Carousel force max-height */
+.carousel-inner {
+  max-height: 500px;
+}

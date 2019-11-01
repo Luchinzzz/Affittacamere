@@ -157,7 +157,7 @@
           {% for room in requested_user_rooms %}
           <div class="col-md-4" style="padding-bottom:30px;">
             <div class="card">
-              <img class="card-img-top" src="{{ url_for('static', filename='img/bg_2.jpg') }}" alt="Image Placeholder">
+              <img class="card-img-top" src="{{ room.pictures[0] }}" alt="Image Placeholder">
               <div class="card-body">
                 <h3 class="card-title" style="margin-top:0;">{{ room.name }}</h3>
                 <p class="card-text">
