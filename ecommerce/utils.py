@@ -78,7 +78,24 @@ def add_room_pictures_path(rooms):
     for i in range(0, len(rooms)):
         rooms_dir = path.join(current_dir, 'static', 'img', 'rooms', str(rooms[i].id))
         rooms[i].pictures = []
-        for image in listdir(rooms_dir):
+        files = listdir(rooms_dir)
+        if not files:
+            rooms[i].pictures = ['/static/img/room_placeholder.jpg']
+            continue
+        for image in files:
             rooms[i].pictures.append( f'/static/img/rooms/{rooms[i].id}/{image}' )
 
     return rooms
+
+def add_prenotation_picture_path(prenotations):
+    """
+    Add first picture path to the prenotations objects
+    """
+    for i in range(0, len(prenotations)):
+        rooms_dir = path.join(current_dir, 'static', 'img', 'rooms', str(prenotations[i].room_id))
+        prenotations[i].picture = '/static/img/room_placeholder.jpg'
+        for image in listdir(rooms_dir):
+            prenotations[i].picture = f'/static/img/rooms/{rooms[i].id}/{image}'
+            break
+
+    return prenotations

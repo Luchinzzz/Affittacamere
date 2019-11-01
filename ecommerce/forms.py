@@ -43,3 +43,9 @@ class AddRoomForm(FlaskForm):
     max_persons = SelectField('Numero massimo di Persone', choices=persons_choices, validators=[DataRequired()])
     pictures = MultipleFileField('Immagini della stanza')
     submit = SubmitField('Aggiungi stanza')
+
+class PrenotationForm(FlaskForm):
+    start_date = DateField('Inizio prenotazione', format='%d/%m/%Y', validators=[DataRequired()])
+    end_date = DateField('Fine prenotazione', format='%d/%m/%Y', validators=[DataRequired()])
+    persons = SelectField('Numero di Persone', choices=persons_choices, validators=[DataRequired()])
+    submit = SubmitField('Prenota')

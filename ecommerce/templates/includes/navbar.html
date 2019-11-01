@@ -1,4 +1,6 @@
-{% include 'includes/login_register.html' %}
+{% if not current_user.is_authenticated %}
+{% include 'includes/modal_login_register.html' %}
+{% endif %}
 
 <nav class="navbar {% if trasparent_navbar %} navbar-color-on-scroll navbar-transparent{% endif %} fixed-top navbar-expand-lg"
     color-on-scroll="100">

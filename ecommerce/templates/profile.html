@@ -198,7 +198,7 @@
           {% for prenotation in requested_user_prenotations %}
           <div class="col-md-4" style="padding-bottom:30px;">
             <div class="card">
-              <img class="card-img-top" src="{{ room.pictures[0] }}" alt="Image Placeholder">
+              <img class="card-img-top" src="{{ prenotation.picture }}" alt="Image Placeholder">
               <div class="card-body">
                 <h3 class="card-title" style="margin-top:0;">{{ prenotation.name }}</h3>
                 <p class="card-text">
@@ -212,8 +212,8 @@
                   <br>
                   <strong>Luogo:</strong> {{ prenotation.address }}
                 </p>
-                <a href="/room/{{ room.id }}">
-                  <button type="button" class="btn btn-info btn-block">Vai alla pagina</button>
+                <a href="/room/{{ prenotation.room_id }}">
+                  <button type="button" class="btn btn-info btn-block">Vai alla camera</button>
                 </a>
               </div>
             </div>

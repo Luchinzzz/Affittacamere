@@ -4,12 +4,13 @@ from sqlalchemy import and_
 
 from ecommerce import current_dir, app, db
 from ecommerce.models import User, Room, Prenotation
-from ecommerce.forms import SearchForm, RegistrationForm, LoginForm, ProfilePictureForm, AddRoomForm
-from ecommerce.utils import check_login_register, truncate_descriptions, add_room_pictures_path
+from ecommerce.forms import SearchForm, RegistrationForm, LoginForm, ProfilePictureForm, AddRoomForm, PrenotationForm
+from ecommerce.utils import check_login_register, truncate_descriptions, add_room_pictures_path, add_prenotation_picture_path
 
 from werkzeug.utils import secure_filename
 from os import path, makedirs, remove
 import shutil
+from datetime import datetime
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -88,8 +89,6 @@ def profile(requested_user_id):
         return abort(404)
     
     # Prepare forms
-    login_form = LoginForm()
-    registration_form = RegistrationForm()
     profilepicture_form = ProfilePictureForm()
     addroom_form = AddRoomForm()
 
@@ -146,16 +145,17 @@ def profile(requested_user_id):
 
     # Get user prenotation if current_user is the proprietary of the requested profile page
     requested_user_prenotations = []
-    if requested_user_id == current_user.id:
+    if requested_user.id == current_user.id:
         requested_user_prenotations = Prenotation.query.filter_by(buyer_id=requested_user_id).all()
         for i in range(0, len(requested_user_prenotations)):
             referenced_room = Room.query.filter_by(id=requested_user_prenotations[i].room_id).first()
             requested_user_prenotations[i].name = referenced_room.name
             requested_user_prenotations[i].address = referenced_room.address
 
+    # Add preview picture to prenotations
+    requested_user_prenotations = add_prenotation_picture_path(requested_user_prenotations)
+
     return render_template('profile.html',
-        login_form=login_form,
-        registration_form=registration_form,
         profilepicture_form=profilepicture_form,
         addroom_form=addroom_form,
         requested_user=requested_user,
@@ -173,18 +173,50 @@ def room(requested_room_id):
 
     # Get user's owner
     room_owner = User.query.filter_by(id=requested_room.owner_id).first()
+    # Add room pictures path
+    requested_room = add_room_pictures_path([requested_room])[0]
 
     # Check if user has performed a login or registration
     registration_form, login_form = check_login_register()
+
+    # Prepare prenotation form
+    prenotation_form = PrenotationForm()
     
-    # Add room pictures path
-    requested_room = add_room_pictures_path([requested_room])[0]
+    # New prenotation?
+    if prenotation_form.submit.data:
+        if prenotation_form.validate():
+            # Calculate price
+            # Calculate days difference
+            delta = prenotation_form.end_date.data - prenotation_form.start_date.data
+            price  = float(delta.days + 1) * float(requested_room.price) * float(prenotation_form.persons.data)
+
+            # Create new prenotation entry
+            prenotation = Prenotation(
+                room_id=requested_room_id,
+                buyer_id=current_user.id,
+                start_date=prenotation_form.start_date.data,
+                end_date=prenotation_form.end_date.data,
+                persons=prenotation_form.persons.data,
+                price=price,
+            )
+            db.session.add(prenotation)
+            db.session.commit()
+            # Redirect to the user's profile page who prenotated
+            return redirect(f'/profile/{current_user.id}')
+
+    # Get current prenotations
+    prenotations = Prenotation.query.filter_by(room_id=requested_room_id).all()
+    # Fill prenotations with username of buyers
+    for i in range(0, len(prenotations)):
+        prenotations[i].username = User.query.filter_by(id=prenotations[i].buyer_id).first().username
 
     return render_template('room.html',
         registration_form=registration_form,
         login_form=login_form,
+        prenotation_form=prenotation_form,
         requested_room=requested_room,
-        room_owner=room_owner
+        room_owner=room_owner,
+        prenotations=prenotations
     )
 
 

@@ -1,0 +1,70 @@
+<div class="modal fade" id="prenotationModal" tabindex="-1" role="dialog" aria-labelledby="prenotationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="card card-login" style="margin-bottom: 0px!important;">
+                <div class="card card-nav-tabs card-plain">
+                    <div class="card-header card-header-info d-flex justify-content-center"
+                        style="font-weight: 1000; font-size: 20px;">
+                        Prenotazione
+                    </div>
+                    <!-- Prenotation Form -->
+                    <form class="form" method="POST" action="">
+                        {{ prenotation_form.csrf_token }}
+                        <div class="card-body">
+                            <!-- Inizio Soggiorno -->
+                            <div class="input-group {% if prenotation_form.start_date.errors %}has-danger{% endif %}">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="material-icons">calendar_today</i>
+                                    </span>
+                                </div>
+                                {{ prenotation_form.start_date(class="form-control datetimepicker", id="datetimepicker1", placeholder="Inizio Soggiorno...") }}
+                                {% if prenotation_form.start_date.errors %}
+                                <span
+                                    class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                                <label
+                                    class="control-label control-label-custom">{% for error in prenotation_form.start_date.errors %}{{ error }}<br>{% endfor %}</label>
+                                {% endif %}
+                            </div>
+                            <!-- Fine Soggiorno -->
+                            <div class="input-group {% if prenotation_form.end_date.errors %}has-danger{% endif %}">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="material-icons">calendar_today</i>
+                                    </span>
+                                </div>
+                                {{ prenotation_form.end_date(class="form-control datetimepicker", id="datetimepicker2", placeholder="Fine Soggiorno...") }}
+                                {% if prenotation_form.end_date.errors %}
+                                <span
+                                    class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                                <label
+                                    class="control-label control-label-custom">{% for error in prenotation_form.end_date.errors %}{{ error }}<br>{% endfor %}</label>
+                                {% endif %}
+                            </div>
+                            <!-- Max Persons -->
+                            <div class="input-group {% if prenotation_form.persons.errors %}has-danger{% endif %}">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="material-icons">face</i>
+                                    </span>
+                                </div>
+                                {{ prenotation_form.persons(class="form-control", placeholder="Numero massimo di Persone...") }}
+                                {% if prenotation_form.persons.errors %}
+                                <span
+                                    class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                                <label
+                                    class="control-label control-label-custom">{% for error in prenotation_form.persons.errors %}{{ error }}<br>{% endfor %}</label>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- Submit Prenotation -->
+                        <div class="footer text-center">
+                            {{ prenotation_form.submit(class="btn btn-primary btn-link btn-wd btn-lg") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

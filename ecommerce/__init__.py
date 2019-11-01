@@ -33,7 +33,7 @@ if not path.exists(path.join(current_dir, 'ecommerce.db')):
     db.create_all()
     
     # Add first user with privilege
-    from ecommerce.models import User
+    from ecommerce.models import User, Room
     user = User(
         name='Jack',
         surname='Nickolson',
@@ -45,6 +45,20 @@ if not path.exists(path.join(current_dir, 'ecommerce.db')):
     )
     db.session.add(user)
     db.session.commit()
+    # Add first room
+    room = Room(
+        name='Prova',
+        description='Lorem ipsum non ricordo scrivo scrivo scrivo scrivo scrivo scrivo ora basta che mi sono scocciato',
+        address="Perugia",
+        available_from=datetime(2019, 10, 30),
+        available_to=datetime(2019, 11, 30),
+        price=100.0,
+        max_persons=4,
+        owner_id=user.id
+    )
+    db.session.add(room)
+    db.session.commit()
+    makedirs(path.join('ecommerce', 'static', 'img', 'rooms', str(room.id)))
     # Add second user with no privilege
     user = User(
         name='Povero',
