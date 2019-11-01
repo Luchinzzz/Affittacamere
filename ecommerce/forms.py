@@ -19,6 +19,7 @@ class RegistrationForm(FlaskForm):
     surname = StringField('Cognome', validators=[DataRequired(), Length(min=2, max=30)])
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Length(min=2,max=40), Email()])
+    privilege = SelectField('Tipologia', choices=[('True', 'Proprietario'), ('False', 'Affittuario')], validators=[DataRequired()])
     birth_date = DateField('Data di nascita', format='%d/%m/%Y')
     password = PasswordField('Password', validators=[DataRequired(), Length(min=5,max=20)])
     confirm_password = PasswordField('Conferma Password', validators=[DataRequired(), EqualTo('password')])

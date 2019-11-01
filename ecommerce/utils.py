@@ -8,7 +8,7 @@ from os import path
 def check_login_register():
     """
     General function to check if a login or registration was performed,
-    since they could be performed in every page due to navbar
+    since they could be performed in every page since the forms are in the navbar
     """
     login_form = LoginForm()
     registration_form = RegistrationForm()
@@ -32,6 +32,7 @@ def check_login_register():
                 username=registration_form.username.data,
                 email=registration_form.email.data,
                 birth_date=registration_form.birth_date.data,
+                privilege=True if registration_form.privilege.data == 'True' else False,
                 password=bcrypt.generate_password_hash(registration_form.password.data).decode('utf-8')
             )
             db.session.add(user)

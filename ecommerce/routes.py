@@ -3,7 +3,7 @@ from flask_login import logout_user, login_required, current_user
 from sqlalchemy import and_
 
 from ecommerce import current_dir, app, db
-from ecommerce.models import User, Room
+from ecommerce.models import User, Room, Prenotation
 from ecommerce.forms import SearchForm, RegistrationForm, LoginForm, ProfilePictureForm, AddRoomForm
 from ecommerce.utils import check_login_register, truncate_descriptions, add_room_pictures_path
 
@@ -140,12 +140,18 @@ def profile(requested_user_id):
 
     # Get current user rooms to display them
     requested_user_rooms = Room.query.filter_by(owner_id=requested_user_id).all()
-    
-    # Truncate description of results rooms if necessary
+    # Truncate description of results rooms if necessary and add pictures' path
     requested_user_rooms = truncate_descriptions(requested_user_rooms)
-
-    # Add room pictures path to the results
     requested_user_rooms = add_room_pictures_path(requested_user_rooms)
+
+    # Get user prenotation if current_user is the proprietary of the requested profile page
+    requested_user_prenotations = []
+    if requested_user_id == current_user.id:
+        requested_user_prenotations = Prenotation.query.filter_by(buyer_id=requested_user_id).all()
+        for i in range(0, len(requested_user_prenotations)):
+            referenced_room = Room.query.filter_by(id=requested_user_prenotations[i].room_id).first()
+            requested_user_prenotations[i].name = referenced_room.name
+            requested_user_prenotations[i].address = referenced_room.address
 
     return render_template('profile.html',
         login_form=login_form,
@@ -153,7 +159,8 @@ def profile(requested_user_id):
         profilepicture_form=profilepicture_form,
         addroom_form=addroom_form,
         requested_user=requested_user,
-        requested_user_rooms=requested_user_rooms
+        requested_user_rooms=requested_user_rooms,
+        requested_user_prenotations=requested_user_prenotations
     )
 
 

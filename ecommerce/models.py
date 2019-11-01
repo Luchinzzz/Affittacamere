@@ -14,9 +14,10 @@ class User(db.Model, UserMixin):
     birth_date = db.Column(db.Date)
     password = db.Column(db.String(20), nullable=False)
     picture = db.Column(db.String(40), default='/static/img/users/default.png')
+    privilege = db.Column(db.Boolean(), default=False)
 
     def __repr__(self):
-        return f"User({self.id}, '{self.name}', '{self.surname}', '{self.username}', '{self.email}', '{self.birth_date}')"
+        return f"User({self.id}, '{self.name}', '{self.surname}', '{self.username}', '{self.email}', '{self.birth_date}', '{self.privilege}')"
 
 class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

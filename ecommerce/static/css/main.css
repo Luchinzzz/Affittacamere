@@ -43,6 +43,10 @@
 }
 
 /* Card Result */
+.card-img-top {
+  max-height: 250px;
+}
+
 .card {
   margin-bottom: 0px!important;
 }

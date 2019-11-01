@@ -16,9 +16,9 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 
-# Creating db and directories if db doesn't exists
+# Creating db if it doesn't exist
 if not path.exists(path.join(current_dir, 'ecommerce.db')):
-    # Delete Users and Rooms data, since they are all invalid if they exists
+    # Delete Users and Rooms data, since they are all invalid if they exist
     users_dir = path.join(current_dir, 'static', 'img', 'users')
     rooms_dir = path.join(current_dir, 'static', 'img', 'rooms')
     for f in listdir(users_dir):
@@ -32,7 +32,7 @@ if not path.exists(path.join(current_dir, 'ecommerce.db')):
     from ecommerce.models import *
     db.create_all()
     
-    # Add First User
+    # Add first user with privilege
     from ecommerce.models import User
     user = User(
         name='Jack',
@@ -40,7 +40,20 @@ if not path.exists(path.join(current_dir, 'ecommerce.db')):
         username='asd123',
         email='asd123@gmail.com',
         birth_date=datetime(2019, 10, 30),
-        password=bcrypt.generate_password_hash('asd123').decode('utf-8')
+        password=bcrypt.generate_password_hash('asd123').decode('utf-8'),
+        privilege=True
+    )
+    db.session.add(user)
+    db.session.commit()
+    # Add second user with no privilege
+    user = User(
+        name='Povero',
+        surname='Stronzo',
+        username='ciaopoveri',
+        email='ciaopoveri@gmail.com',
+        birth_date=datetime(2019, 10, 30),
+        password=bcrypt.generate_password_hash('asd123').decode('utf-8'),
+        privilege=False
     )
     db.session.add(user)
     db.session.commit()

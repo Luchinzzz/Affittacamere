@@ -34,7 +34,8 @@
                     {{ login_form.username_email(class="form-control", placeholder="Username/Email...") }}
                     {% if login_form.username_email.errors %}
                     <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
-                    <label class="control-label control-label-custom">{% for error in login_form.username_email.errors %}{{ error }}<br>{% endfor %}</label>
+                    <label
+                      class="control-label control-label-custom">{% for error in login_form.username_email.errors %}{{ error }}<br>{% endfor %}</label>
                     {% endif %}
                   </div>
                   <!-- Password -->
@@ -47,7 +48,8 @@
                     {{ login_form.password(class="form-control", placeholder="Password...") }}
                     {% if login_form.password.errors %}
                     <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
-                    <label class="control-label control-label-custom">{% for error in login_form.password.errors %}{{ error }}<br>{% endfor %}</label>
+                    <label
+                      class="control-label control-label-custom">{% for error in login_form.password.errors %}{{ error }}<br>{% endfor %}</label>
                     {% endif %}
                   </div>
                 </div>
@@ -74,7 +76,8 @@
                         {{ registration_form.name(class="form-control", placeholder="Nome...") }}
                         {% if registration_form.name.errors %}
                         <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
-                        <label class="control-label control-label-custom">{% for error in registration_form.name.errors %}{{ error }}<br>{% endfor %}</label>
+                        <label
+                          class="control-label control-label-custom">{% for error in registration_form.name.errors %}{{ error }}<br>{% endfor %}</label>
                         {% endif %}
                       </div>
                     </div>
@@ -89,7 +92,8 @@
                         {{ registration_form.surname(class="form-control", placeholder="Cognome...") }}
                         {% if registration_form.surname.errors %}
                         <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
-                        <label class="control-label control-label-custom">{% for error in registration_form.surname.errors %}{{ error }}<br>{% endfor %}</label>
+                        <label
+                          class="control-label control-label-custom">{% for error in registration_form.surname.errors %}{{ error }}<br>{% endfor %}</label>
                         {% endif %}
                       </div>
                     </div>
@@ -104,7 +108,8 @@
                     {{ registration_form.username(class="form-control", placeholder="Username...") }}
                     {% if registration_form.username.errors %}
                     <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
-                    <label class="control-label control-label-custom">{% for error in registration_form.username.errors %}{{ error }}<br>{% endfor %}</label>
+                    <label
+                      class="control-label control-label-custom">{% for error in registration_form.username.errors %}{{ error }}<br>{% endfor %}</label>
                     {% endif %}
                   </div>
                   <!-- Email -->
@@ -117,7 +122,8 @@
                     {{ registration_form.email(class="form-control", placeholder="Email...") }}
                     {% if registration_form.email.errors %}
                     <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
-                    <label class="control-label control-label-custom">{% for error in registration_form.email.errors %}{{ error }}<br>{% endfor %}</label>
+                    <label
+                      class="control-label control-label-custom">{% for error in registration_form.email.errors %}{{ error }}<br>{% endfor %}</label>
                     {% endif %}
                   </div>
                   <!-- Data di Nascita -->
@@ -130,7 +136,22 @@
                     {{ registration_form.birth_date(class="form-control datetimepicker", id="datetimepicker", placeholder="Data di Nascita...") }}
                     {% if registration_form.birth_date.errors %}
                     <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
-                    <label class="control-label control-label-custom">{% for error in registration_form.birth_date.errors %}{{ error }}<br>{% endfor %}</label>
+                    <label
+                      class="control-label control-label-custom">{% for error in registration_form.birth_date.errors %}{{ error }}<br>{% endfor %}</label>
+                    {% endif %}
+                  </div>
+                  <!-- Tipologia di utente -->
+                  <div class="input-group {% if registration_form.privilege.errors %}has-danger{% endif %}">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">person</i>
+                      </span>
+                    </div>
+                    {{ registration_form.privilege(class="form-control") }}
+                    {% if registration_form.privilege.errors %}
+                    <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
+                    <label
+                      class="control-label control-label-custom">{% for error in registration_form.privilege.errors %}{{ error }}<br>{% endfor %}</label>
                     {% endif %}
                   </div>
                   <!-- Password -->
@@ -143,7 +164,8 @@
                     {{ registration_form.password(class="form-control", placeholder="Password...") }}
                     {% if registration_form.password.errors %}
                     <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
-                    <label class="control-label control-label-custom">{% for error in registration_form.password.errors %}{{ error }}<br>{% endfor %}</label>
+                    <label
+                      class="control-label control-label-custom">{% for error in registration_form.password.errors %}{{ error }}<br>{% endfor %}</label>
                     {% endif %}
                   </div>
                   <!-- Conferma Password -->
@@ -156,7 +178,8 @@
                     {{ registration_form.confirm_password(class="form-control", placeholder="Conferma Password...") }}
                     {% if registration_form.confirm_password.errors %}
                     <span class="material-icons form-control-feedback form-control-feedback-custom">clear</span>
-                    <label class="control-label control-label-custom">{% for error in registration_form.confirm_password.errors %}{{ error }}<br>{% endfor %}</label>
+                    <label
+                      class="control-label control-label-custom">{% for error in registration_form.confirm_password.errors %}{{ error }}<br>{% endfor %}</label>
                     {% endif %}
                   </div>
                   <!-- Submit Registrazione -->
