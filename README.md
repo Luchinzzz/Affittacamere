@@ -1,4 +1,4 @@
-# c1cc10p4st1cc10 - Affittacamere
+#  Affittacamere
 Progetto di "Sistemi Aperti e Distribuiti", Università di Perugia.
 Sviluppatori:
 - Strippoli Antonio
