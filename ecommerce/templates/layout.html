@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>CiccioPasticcio</title>
+    <title>Affittacamere</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
@@ -67,7 +67,7 @@
         });
     </script>
     {% if registration_form or login_form %}
-    <!-- Reopen Modal in case of wrong input -->
+    <!-- Reopen Login/Registration Modal in case of wrong input -->
     {% if registration_form.errors %}
     <script type="text/javascript">
         $('#loginModal').modal()
@@ -80,8 +80,8 @@
     {% endif %}
     {% endif %}
     {% if prenotation_form %}
-    <!-- Reopen Modal in case of wrong input -->
-    {% if registration_form.errors %}
+    <!-- Reopen Prenotation Modal in case of wrong input -->
+    {% if prenotation_form.errors %}
     <script type="text/javascript">
         $('#prenotationModal').modal()
     </script>

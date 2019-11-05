@@ -156,6 +156,7 @@ def profile(requested_user_id):
     requested_user_prenotations = add_prenotation_picture_path(requested_user_prenotations)
 
     return render_template('profile.html',
+        trasparent_navbar=True,
         profilepicture_form=profilepicture_form,
         addroom_form=addroom_form,
         requested_user=requested_user,
