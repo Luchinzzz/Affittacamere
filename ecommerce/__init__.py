@@ -35,10 +35,10 @@ if not path.exists(path.join(current_dir, 'ecommerce.db')):
     # Add first user with privilege
     from ecommerce.models import User, Room
     user = User(
-        name='Jack',
-        surname='Nickolson',
-        username='asd123',
-        email='asd123@gmail.com',
+        name='Primo',
+        surname='Proprietario',
+        username='proprietario',
+        email='username@gmail.com',
         birth_date=datetime(2019, 10, 30),
         password=bcrypt.generate_password_hash('asd123').decode('utf-8'),
         privilege=True
@@ -47,8 +47,8 @@ if not path.exists(path.join(current_dir, 'ecommerce.db')):
     db.session.commit()
     # Add first room
     room = Room(
-        name='Prova',
-        description='Lorem ipsum non ricordo scrivo scrivo scrivo scrivo scrivo scrivo ora basta che mi sono scocciato',
+        name='Titolo Stanza',
+        description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent imperdiet diam non commodo varius. Quisque a augue mauris. Duis ligula tellus, congue vitae vehicula ornare, finibus id elit. Sed consectetur justo luctus lorem bibendum, ut blandit mauris sollicitudin. In felis magna, condimentum nec ipsum at, interdum aliquet lacus. Donec neque libero, pulvinar ac eros sed, tristique vehicula purus. Integer finibus, arcu sed egestas accumsan, dui mauris auctor enim, in placerat leo arcu ac odio. Sed ac nunc vitae arcu fermentum maximus. Vivamus et orci ornare, fringilla ex id, cursus tortor. Integer pulvinar, libero in venenatis iaculis, odio metus tristique orci, fermentum ultrices ex enim non lorem. Morbi finibus porttitor venenatis.',
         address="Perugia",
         available_from=datetime(2019, 10, 30),
         available_to=datetime(2019, 11, 30),
@@ -61,10 +61,10 @@ if not path.exists(path.join(current_dir, 'ecommerce.db')):
     makedirs(path.join('ecommerce', 'static', 'img', 'rooms', str(room.id)))
     # Add second user with no privilege
     user = User(
-        name='Povero',
-        surname='Stronzo',
-        username='ciaopoveri',
-        email='ciaopoveri@gmail.com',
+        name='Primo',
+        surname='Affittuario',
+        username='affittuario',
+        email='affittuario@gmail.com',
         birth_date=datetime(2019, 10, 30),
         password=bcrypt.generate_password_hash('asd123').decode('utf-8'),
         privilege=False

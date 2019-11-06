@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, abort
 from flask_login import logout_user, login_required, current_user
-from sqlalchemy import and_
+from sqlalchemy import and_, or_
 
 from ecommerce import current_dir, app, db
 from ecommerce.models import User, Room, Prenotation
@@ -186,24 +186,51 @@ def room(requested_room_id):
     # New prenotation?
     if prenotation_form.submit.data:
         if prenotation_form.validate():
-            # Calculate price
-            # Calculate days difference
-            delta = prenotation_form.end_date.data - prenotation_form.start_date.data
-            price  = float(delta.days + 1) * float(requested_room.price) * float(prenotation_form.persons.data)
+            # Check to see if there are other prenotations in this period of time
+            prenotations_conflicts = Prenotation.query.filter(and_(
+                Prenotation.room_id == requested_room_id,
+                or_(
+                    and_(
+                        prenotation_form.start_date.data >= Prenotation.start_date,
+                        prenotation_form.start_date.data <= Prenotation.end_date
+                    ),
+                    and_(
+                        prenotation_form.end_date.data >= Prenotation.start_date,
+                        prenotation_form.end_date.data <= Prenotation.end_date
+                    )
+                )
+            )).all()
 
-            # Create new prenotation entry
-            prenotation = Prenotation(
-                room_id=requested_room_id,
-                buyer_id=current_user.id,
-                start_date=prenotation_form.start_date.data,
-                end_date=prenotation_form.end_date.data,
-                persons=prenotation_form.persons.data,
-                price=price,
-            )
-            db.session.add(prenotation)
-            db.session.commit()
-            # Redirect to the user's profile page who prenotated
-            return redirect(f'/profile/{current_user.id}')
+            # Get requested room
+            requested_room = Room.query.filter_by(id=requested_room_id).first()
+
+            if not prenotations_conflicts:
+                # Check max persons
+                if int(prenotation_form.persons.data) <= requested_room.max_persons:
+                    # Calculate days difference
+                    delta = prenotation_form.end_date.data - prenotation_form.start_date.data
+                    # Calculate price
+                    price  = float(delta.days + 1) * float(requested_room.price) * float(prenotation_form.persons.data)
+
+                    # Create new prenotation entry
+                    prenotation = Prenotation(
+                        room_id=requested_room_id,
+                        buyer_id=current_user.id,
+                        start_date=prenotation_form.start_date.data,
+                        end_date=prenotation_form.end_date.data,
+                        persons=prenotation_form.persons.data,
+                        price=price,
+                    )
+                    db.session.add(prenotation)
+                    db.session.commit()
+                    # Redirect to the user's profile page who prenotated
+                    return redirect(f'/profile/{current_user.id}')
+                else:
+                    prenotation_form.persons.errors = ["Errore, numero MAX disponibile: " + str(requested_room.max_persons)]
+            else:
+                # Return custom error
+                prenotation_form.start_date.errors = ["La stanza non è disponibile in questa data, riprova."]
+                prenotation_form.end_date.errors = ["La stanza non è disponibile in questa data, riprova."]
 
     # Get current prenotations
     prenotations = Prenotation.query.filter_by(room_id=requested_room_id).all()
