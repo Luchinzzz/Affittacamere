@@ -223,7 +223,7 @@ def room(requested_room_id):
 @app.route("/room/<requested_room_id>/delete")
 @login_required
 def room_delete(requested_room_id):
-    # Ask for prenotations if the user has the rights to do so
+    # Try to remove the requested room
     operation_return = requests.post('http://localhost:5000/api/room/delete',
         json={'id': requested_room_id},
         cookies=request.cookies
