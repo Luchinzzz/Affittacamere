@@ -76,15 +76,15 @@
                         <div class="card">
                             <img class="card-img-top" src="{{ room.pictures[0] }}" alt="Anteprima">
                             <div class="card-body">
-                                <h3 class="card-title" style="margin-top:0;">{{ room.name }}</h3>
+                                <h3 class="card-title" style="margin-top:0;">{{ room['name'] }}</h3>
                                 <p class="card-text">
-                                    <strong>Prezzo:</strong> € {{ room.price }} / per notte
+                                    <strong>Prezzo:</strong> € {{ room['price'] }} / per notte
                                     <br>
-                                    <strong>Ospiti:</strong> {{ room.max_persons }}
+                                    <strong>Ospiti:</strong> {{ room['max_persons'] }}
                                     <br>
-                                    <strong>Luogo:</strong> {{ room.address }}
+                                    <strong>Luogo:</strong> {{ room['address'] }}
                                     <br>
-                                    <strong>Caratteristiche:</strong> {{ room.description }}
+                                    <strong>Caratteristiche:</strong> {{ room['description'] }}
                                 </p>
                             </div>
                         </div>

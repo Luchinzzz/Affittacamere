@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_json import FlaskJSON
 from ecommerce.config import Config
 from os import path, makedirs, listdir, remove
 import shutil
@@ -15,6 +16,7 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+json = FlaskJSON(app)
 
 # Creating db if it doesn't exist
 if not path.exists(path.join(current_dir, 'ecommerce.db')):
@@ -72,4 +74,5 @@ if not path.exists(path.join(current_dir, 'ecommerce.db')):
     db.session.add(user)
     db.session.commit()
 
+from ecommerce import api_routes
 from ecommerce import routes

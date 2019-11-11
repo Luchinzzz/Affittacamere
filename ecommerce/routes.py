@@ -1,16 +1,13 @@
-from flask import render_template, redirect, url_for, abort
+from flask import render_template, redirect, url_for, abort, request
 from flask_login import logout_user, login_required, current_user
-from sqlalchemy import and_, or_
+import requests
 
 from ecommerce import current_dir, app, db
-from ecommerce.models import User, Room, Prenotation
 from ecommerce.forms import SearchForm, RegistrationForm, LoginForm, ProfilePictureForm, AddRoomForm, PrenotationForm
-from ecommerce.utils import check_login_register, truncate_descriptions, add_room_pictures_path, add_prenotation_picture_path
+from ecommerce.utils import check_login_register
 
 from werkzeug.utils import secure_filename
 from os import path, makedirs, remove
-import shutil
-from datetime import datetime
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -52,25 +49,15 @@ def search_results(search_form=None):
             results_rooms=[]
         )
 
-    # Form data are valids, save datas for the query
-    address = search_form.address.data
-    start_date = search_form.start_date.data
-    end_date = search_form.end_date.data
-    persons = search_form.persons.data
+    # Form data are valids, ask results at the backend
+    search_data = {
+        'address': str(search_form.address.data),
+        'start_date': str(search_form.start_date.data),
+        'end_date': str(search_form.end_date.data),
+        'persons': str(search_form.persons.data)
+    }
 
-    # Get data from DB
-    results_rooms = Room.query.filter(and_(
-        Room.address.like(f'%{address}%'),
-        Room.available_from <= start_date,
-        Room.available_to >= end_date,
-        Room.max_persons >= persons
-    )).all()
-
-    # Truncate description of results rooms if necessary
-    results_rooms = truncate_descriptions(results_rooms)
-
-    # Add room pictures path to the results
-    results_rooms = add_room_pictures_path(results_rooms)
+    results_rooms = requests.post('http://localhost:5000/api/search', json=search_data).json()
 
     return render_template('results.html',
         search_form=search_form,
@@ -83,11 +70,17 @@ def search_results(search_form=None):
 @app.route("/profile/<requested_user_id>", methods=['GET', 'POST'])
 @login_required
 def profile(requested_user_id):
+    # Convert to integer for later confrontations
+    requested_user_id = int(requested_user_id)
+
     # Get requested user
-    requested_user = User.query.filter_by(id=requested_user_id).first()
+    requested_user = requests.post('http://localhost:5000/api/profile/get',
+        json={'id': requested_user_id},
+        cookies=request.cookies
+    ).json()
     if not requested_user:
         return abort(404)
-    
+
     # Prepare forms
     profilepicture_form = ProfilePictureForm()
     addroom_form = AddRoomForm()
@@ -107,7 +100,6 @@ def profile(requested_user_id):
                 "%s.%s" % ( str(current_user.id), path.splitext(f.filename)[-1] )
             )
             path_img = path.join(current_dir, 'static', 'img', 'users', filename)
-            print(path_img)
             f.save(path_img)
             # Update DB
             current_user.picture = '/static/img/users/' + filename
@@ -116,44 +108,43 @@ def profile(requested_user_id):
     # New Room?
     if addroom_form.submit.data:
         if addroom_form.validate():
-            # Create new room entry
-            room = Room(
-                name=addroom_form.name.data,
-                description=addroom_form.description.data,
-                address=addroom_form.address.data,
-                available_from=addroom_form.available_from.data,
-                available_to=addroom_form.available_to.data,
-                price=addroom_form.price.data,
-                max_persons=addroom_form.max_persons.data,
-                owner_id=requested_user_id
-            )
-            db.session.add(room)
-            db.session.commit()
-            makedirs(path.join('ecommerce', 'static', 'img', 'rooms', str(room.id)))
+            # Prepare room's datas
+            room_data = {
+                'name': addroom_form.name.data,
+                'description': addroom_form.description.data,
+                'address': addroom_form.address.data,
+                'available_from': str(addroom_form.available_from.data),
+                'available_to': str(addroom_form.available_to.data),
+                'price': addroom_form.price.data,
+                'max_persons': addroom_form.max_persons.data,
+                'owner_id': requested_user_id,
+            }
+            
+            # Ask backend to create a new room for this user
+            room = requests.post('http://localhost:5000/api/room/add',
+                json=room_data,
+                cookies=request.cookies
+            ).json()
+
             # Save picture in room directory
+            makedirs(path.join('ecommerce', 'static', 'img', 'rooms', str(room['id'])))
             for picture in addroom_form.pictures.data:
                 filename = secure_filename(picture.filename)
                 if filename != "":
-                    path_img = path.join(current_dir, 'static', 'img', 'rooms', str(room.id), filename)
+                    path_img = path.join(current_dir, 'static', 'img', 'rooms', str(room['id']), filename)
                     picture.save(path_img)
 
     # Get current user rooms to display them
-    requested_user_rooms = Room.query.filter_by(owner_id=requested_user_id).all()
-    # Truncate description of results rooms if necessary and add pictures' path
-    requested_user_rooms = truncate_descriptions(requested_user_rooms)
-    requested_user_rooms = add_room_pictures_path(requested_user_rooms)
+    requested_user_rooms = requests.post('http://localhost:5000/api/room/get_by_owner',
+        json={'id': requested_user_id},
+        cookies=request.cookies
+    ).json()
 
     # Get user prenotation if current_user is the proprietary of the requested profile page
-    requested_user_prenotations = []
-    if requested_user.id == current_user.id:
-        requested_user_prenotations = Prenotation.query.filter_by(buyer_id=requested_user_id).all()
-        for i in range(0, len(requested_user_prenotations)):
-            referenced_room = Room.query.filter_by(id=requested_user_prenotations[i].room_id).first()
-            requested_user_prenotations[i].name = referenced_room.name
-            requested_user_prenotations[i].address = referenced_room.address
-
-    # Add preview picture to prenotations
-    requested_user_prenotations = add_prenotation_picture_path(requested_user_prenotations)
+    requested_user_prenotations = requests.post('http://localhost:5000/api/prenotation/get_by_owner',
+        json={'id': requested_user_id},
+        cookies=request.cookies
+    ).json()
 
     return render_template('profile.html',
         trasparent_navbar=True,
@@ -168,14 +159,17 @@ def profile(requested_user_id):
 @app.route("/room/<requested_room_id>", methods=['GET', 'POST'])
 def room(requested_room_id):
     # Get requested room, if it exists
-    requested_room = Room.query.filter_by(id=requested_room_id).first()
+    requested_room = requests.post('http://localhost:5000/api/room/get_by_id',
+        json={'id': requested_room_id},
+    ).json()
     if not requested_room:
         return abort(404)
 
     # Get user's owner
-    room_owner = User.query.filter_by(id=requested_room.owner_id).first()
-    # Add room pictures path
-    requested_room = add_room_pictures_path([requested_room])[0]
+    room_owner = requests.post('http://localhost:5000/api/profile/get',
+        json={'id': requested_room['owner_id']},
+        cookies=request.cookies
+    ).json()
 
     # Check if user has performed a login or registration
     registration_form, login_form = check_login_register()
@@ -186,57 +180,35 @@ def room(requested_room_id):
     # New prenotation?
     if prenotation_form.submit.data:
         if prenotation_form.validate():
-            # Check to see if there are other prenotations in this period of time
-            prenotations_conflicts = Prenotation.query.filter(and_(
-                Prenotation.room_id == requested_room_id,
-                or_(
-                    and_(
-                        prenotation_form.start_date.data >= Prenotation.start_date,
-                        prenotation_form.start_date.data <= Prenotation.end_date
-                    ),
-                    and_(
-                        prenotation_form.end_date.data >= Prenotation.start_date,
-                        prenotation_form.end_date.data <= Prenotation.end_date
-                    )
-                )
-            )).all()
+            result_prenotation = requests.post('http://localhost:5000/api/prenotation/add',
+                json={
+                    'room_id': int(requested_room_id),
+                    'buyer_id': current_user.id,
+                    'start_date': str(prenotation_form.start_date.data),
+                    'end_date': str(prenotation_form.end_date.data),
+                    'persons': int(prenotation_form.persons.data),
+                },
+                cookies=request.cookies
+            )
+            
+            # If the operation was a success, redirect to profile page
+            if result_prenotation.ok:
+                return redirect(f'/profile/{current_user.id}')
+            
+            # Managing errors
+            result_prenotation = result_prenotation.json()
+            # Date Error?
+            if 'date' in result_prenotation:
+                prenotation_form.start_date.errors = [result_prenotation['date']]
+                prenotation_form.end_date.errors = [result_prenotation['date']]
+            if 'persons' in result_prenotation:
+                prenotation_form.persons.errors = [result_prenotation['persons']]
 
-            # Get requested room
-            requested_room = Room.query.filter_by(id=requested_room_id).first()
-
-            if not prenotations_conflicts:
-                # Check max persons
-                if int(prenotation_form.persons.data) <= requested_room.max_persons:
-                    # Calculate days difference
-                    delta = prenotation_form.end_date.data - prenotation_form.start_date.data
-                    # Calculate price
-                    price  = float(delta.days + 1) * float(requested_room.price) * float(prenotation_form.persons.data)
-
-                    # Create new prenotation entry
-                    prenotation = Prenotation(
-                        room_id=requested_room_id,
-                        buyer_id=current_user.id,
-                        start_date=prenotation_form.start_date.data,
-                        end_date=prenotation_form.end_date.data,
-                        persons=prenotation_form.persons.data,
-                        price=price,
-                    )
-                    db.session.add(prenotation)
-                    db.session.commit()
-                    # Redirect to the user's profile page who prenotated
-                    return redirect(f'/profile/{current_user.id}')
-                else:
-                    prenotation_form.persons.errors = ["Errore, numero MAX disponibile: " + str(requested_room.max_persons)]
-            else:
-                # Return custom error
-                prenotation_form.start_date.errors = ["La stanza non è disponibile in questa data, riprova."]
-                prenotation_form.end_date.errors = ["La stanza non è disponibile in questa data, riprova."]
-
-    # Get current prenotations
-    prenotations = Prenotation.query.filter_by(room_id=requested_room_id).all()
-    # Fill prenotations with username of buyers
-    for i in range(0, len(prenotations)):
-        prenotations[i].username = User.query.filter_by(id=prenotations[i].buyer_id).first().username
+    # Ask for prenotations if the user has the rights to do so
+    prenotations = requests.post('http://localhost:5000/api/prenotation/get_by_room_id',
+        json={'id': requested_room_id},
+        cookies=request.cookies
+    ).json()
 
     return render_template('room.html',
         registration_form=registration_form,
@@ -251,20 +223,15 @@ def room(requested_room_id):
 @app.route("/room/<requested_room_id>/delete")
 @login_required
 def room_delete(requested_room_id):
-    # Get requested room, if it exists
-    requested_room = Room.query.filter_by(id=requested_room_id).first()
-    if not requested_room:
-        return abort(404)
+    # Ask for prenotations if the user has the rights to do so
+    operation_return = requests.post('http://localhost:5000/api/room/delete',
+        json={'id': requested_room_id},
+        cookies=request.cookies
+    )
 
-    # Check if current user has the rights to remove this room
-    if requested_room.owner_id != current_user.id:
-        return abort(401)
-
-    # Delete room from DB, delete room's directory with all the images inside
-    db.session.delete(requested_room)
-    db.session.commit()
-    rooms_dir = path.join(current_dir, 'static', 'img', 'rooms')
-    shutil.rmtree( path.join(rooms_dir, str(requested_room_id)) )
+    # Error?
+    if not operation_return.ok:
+        return abort(operation_return.status_code)
 
     # Redirect to the user's profile page who requested the remove
     return redirect(f'/profile/{current_user.id}')
