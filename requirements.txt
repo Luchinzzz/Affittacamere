@@ -6,3 +6,4 @@ flask-bcrypt
 flask-login
 requests
 gunicorn
+simplejson
